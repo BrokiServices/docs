@@ -17,19 +17,13 @@
             "group": "Get Started",
             "pages": [
               "index",
-              "phonecalls",
-              "development"
+              "phonecalls"
             ]
           },
           {
-            "group": "Essentials",
+            "group": "Building Guide",
             "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/settings",
-              "essentials/navigation",
-              "essentials/reusable-snippets"
+              "guide/nativelanguageprompts"
             ]
           }
         ]
@@ -42,16 +36,8 @@
             "pages": [
               "api-reference/introduction"
             ]
-          },
-          {
-            "group": "Endpoint Examples",
-            "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
-            ]
           }
+          
         ]
       }
     ],

@@ -1,0 +1,95 @@
+---
+title: Prompts in Native Scripts
+description: Guidelines for writing multilingual prompts using native alphabets for accurate pronunciation and voice AI performance.
+slug: customizations/native-language-prompts
+icon: 'text-size'
+---
+
+# Writing Prompts in Native Scripts
+
+> Improve pronunciation, fluency, and tone of your CallHQ voice assistants by writing prompts in the native script of the target language—such as Devanagari for Hindi or accented Latin characters for French and Spanish.
+
+CallHQ supports conversations in multiple languages out of the box. To achieve natural-sounding responses, it’s important to provide prompts in the **original script** of each language, instead of using transliterations written in English.
+
+Refer to our [list of supported languages](/customizations/multilingual-languages-support) to check if your preferred language is available.
+
+## Prompting Voice Agents in Non-English Languages
+
+When writing prompts, you can allow the agent to adjust based on the user’s language. Here's a sample instruction for Spanish:
+
+> Maintain concise, two-sentence responses. Stick to the context at all times. Speak in Spanish by default. If the customer switches to English, respond in English from that point forward. Always mirror the customer's language.
+
+***
+
+## Why Use Native Scripts?
+
+Writing prompts in native scripts ensures:
+
+- **Better pronunciation** and clarity
+- **Improved language detection** by the AI
+- **Natural tone and structure** of the output
+- **Reduced risk of fallback to English pronunciation**
+
+## Helpful Tips
+
+- Use tools like **Google Input Tools** or built-in OS keyboards for typing in different scripts.
+- Ensure accented characters are preserved (e.g. é, ñ, ç, ¿, ¡).
+- For Indian languages, prefer Unicode Devanagari or other native input formats over phonetics.
+
+## Examples: Native Script Prompting
+
+<Tabs>
+  <Tab title="French">
+   ❌ Poor Example:
+
+    > Merci beaucoup pour votre aide. Je suis pret a commencer la reunion.
+
+    ✅ Recommended:
+
+    > Merci beaucoup pour votre aide. Je suis prêt à commencer la réunion.
+
+    <Tip>Including accents like "ê" and "à" ensures clarity and natural pronunciation in French.</Tip>
+  </Tab>
+
+  <Tab title="Spanish">
+    ❌ Poor Example:
+
+    > Buenos dias! Que planes tienes para hoy?
+
+    ✅ Recommended:
+
+    > ¡Buenos días! ¿Qué planes tienes para hoy?
+
+    <Tip>Spanish relies on accent marks and inverted punctuation to convey proper tone and inflection.</Tip>
+  </Tab>
+
+  <Tab title="Hindi">
+    ❌ Poor Example:
+
+    > Aapka order tayar hai, kirpya counter par le lijiye.
+
+    ✅ Recommended:
+
+    > आपका ऑर्डर तैयार है, कृपया काउंटर पर ले लीजिए।
+
+    <Tip>Hindi voice output becomes significantly more accurate when written in the Devanagari script.</Tip>
+  </Tab>
+</Tabs>
+
+***
+
+## Common Mistakes to Avoid
+
+Avoid phonetic spellings using English letters for prompts in other languages.
+
+> ❌ Kaise ho? <br />
+> ✅ कैसे हो?
+
+> ❌ Como estas? <br />
+> ✅ ¿Cómo estás?
+
+---
+
+<Tip>
+To ensure the best experience across languages, always test your prompt using the preview feature in the CallHQ Dashboard before deploying.
+</Tip>
