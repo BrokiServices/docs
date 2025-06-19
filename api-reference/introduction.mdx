@@ -1,33 +1,61 @@
 ---
 title: 'Introduction'
-description: 'Example section for showcasing API endpoints'
+description: 'Overview and authentication guide for accessing CallHQ Voice AI APIs'
+slug: quickstart/introduction
 ---
 
+# CallHQ API Documentation
+
+> Integrate and leverage CallHQ Voice AI through secure HTTP APIs to build real-time conversational voice agents in your applications and workflows.
+
+CallHQ APIs are built with simplicity, consistency, and flexibility in mind. They use resource-oriented URLs, accept `application/json` request bodies, return responses in JSON format, and rely on standard HTTP status codes, verbs, and authentication methods.
+
 <Note>
-  If you're not looking to build API reference documentation, you can delete
-  this section by removing the api-reference folder.
+You must have a valid CallHQ account to access and use API keys.
 </Note>
-
-## Welcome
-
-There are two ways to build API documentation: [OpenAPI](https://mintlify.com/docs/api-playground/openapi/setup) and [MDX components](https://mintlify.com/docs/api-playground/mdx/configuration). For the starter kit, we are using the following OpenAPI specification.
-
-<Card
-  title="Plant Store Endpoints"
-  icon="leaf"
-  href="https://github.com/mintlify/starter/blob/main/api-reference/openapi.json"
->
-  View the OpenAPI specification file
-</Card>
 
 ## Authentication
 
-All API endpoints are authenticated using Bearer tokens and picked up from the specification file.
+To authenticate with the CallHQ API, follow these steps:
 
-```json
-"security": [
-  {
-    "bearerAuth": []
-  }
-]
+1. Log in to your dashboard at [https://web.callhq.ai](https://web.callhq.ai)
+2. Navigate to the **Developers** section from the left-hand sidebar
+3. Click the **Generate API Key** button to create a new API key
+4. Save your API key securely for future use
+
+<Note>
+The API key will be shown only once. Please store it securely, as it cannot be retrieved again once lost.
+</Note>
+
+## Using the API Key
+
+Include the API key in the `Authorization` header of your HTTP requests using the `Bearer` token scheme.
+
+### Header Format
+
 ```
+Authorization: Bearer <your_api_key>
+```
+
+## Example: Authenticated Request
+
+Below is an example of how to make an authenticated GET request to retrieve all voice assistants associated with your account:
+
+```
+GET https://api.callhq.ai/assistants/all
+Headers:
+  Authorization: Bearer <your_api_key>
+```
+
+This will return a list of assistants created under your organization, along with their metadata.
+
+## Next Steps
+
+You’re now ready to start building. Explore the following sections to:
+
+- Create your first voice assistant
+- Manage call flows using Workflows
+- Monitor usage and performance
+- Integrate CallHQ with your own systems
+
+Use the navigation pane or quickstart links below to proceed.
