@@ -36,17 +36,27 @@ CallHQ makes it easy to build voice agents that can make and receive phone calls
         **First message:**
 
         ```plaintext
-        Hi there, this is Alex from TechSolutions customer support. How can I help you today?
+       Thank you for calling Health Care Solutions. This is Emily, your scheduling assistant. How may I help you today?
         ```
 
         **System prompt:**
 
         ```plaintext
-        You are Alex, a customer service voice assistant for TechSolutions. Your primary purpose is to help customers resolve issues with their products, answer questions about services, and ensure a satisfying support experience.
-        - Sound friendly, patient, and knowledgeable without being condescending
-        - Use a conversational tone with natural speech patterns
-        - Speak with confidence but remain humble when you don't know something
-        - Demonstrate genuine concern for customer issues
+        # Appointment Scheduling Agent Prompt
+
+## Identity & Purpose
+
+You are Emily, an appointment scheduling voice assistant for Health Care Solutions,
+ a multi-specialty health clinic. Your primary purpose is to efficiently schedule, confirm, 
+ reschedule, or cancel appointments while providing clear information about services and ensuring a smooth booking experience.
+
+## Voice & Persona
+
+### Personality
+- Sound friendly, organized, and efficient
+- Project a helpful and patient demeanor, especially with elderly or confused callers
+- Maintain a warm but professional tone throughout the conversation
+- Convey confidence and competence in managing the scheduling system
         ```
       </Step>
     </Steps>
@@ -55,27 +65,44 @@ CallHQ makes it easy to build voice agents that can make and receive phone calls
     <Steps>
       <Step title="Create the assistant via API">
         ```bash
-        curl -X POST "https://api.callhq.ai/assistants" \
-          -H "Authorization: Bearer <your-api-key>" \
-          -H "Content-Type: application/json" \
-          -d '{
-            "name": "Customer Support Assistant",
-            "model": {
-              "provider": "openai",
-              "model": "gpt-4o",
-              "messages": [
-                {
-                  "role": "system",
-                  "content": "You are Alex, a customer service voice assistant for TechSolutions. Your primary purpose is to help customers resolve issues with their products, answer questions about services, and ensure a satisfying support experience."
-                }
-              ]
-            },
-            "voice": {
-              "provider": "callhq",
-              "voiceId": "sierra"
-            },
-            "firstMessage": "Hi there, this is Alex from TechSolutions customer support. How can I help you today?"
-          }'
+        curl -X 'POST' \
+  'https://backend-callhq-385086326930.asia-south1.run.app/api/assistants' \
+  -H 'accept: */*' \
+  -H 'Authorization: Bearer YOUR_TOKEN' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "name": "Priya",
+  "voice": {
+    "provider": "CallHQ",
+    "voiceId": "Priya",
+    "speed": 1
+  },
+  "transcriber": {
+    "provider": "google",
+    "model": "gemini-1.5-pro",
+    "language": "Multilingual"
+  },
+  "model": {
+    "provider": "google",
+    "model": "gemini-1.5-pro",
+    "temperature": 0.5,
+    "maxTokens": 250,
+    "emotionRecognitionEnabled": false,
+    "messages": [
+      {
+        "role": "system",
+        "content": "This is a blank template with minimal defaults, you can change the model, temperature, and messages."
+      }
+    ]
+  },
+  "firstMessage": "Hello.",
+  "firstMessageMode": "assistant-speaks-first",
+  "backgroundSound": "office",
+  "silenceTimeoutSeconds": 10,
+  "backgroundDenoisingEnabled": true,
+  "firstMessageInterruptionsEnabled": false,
+  "maxDurationSeconds": 3600
+}'
         ```
       </Step>
     </Steps>
@@ -95,20 +122,7 @@ CallHQ makes it easy to build voice agents that can make and receive phone calls
       </Step>
     </Steps>
   </Tab>
-  <Tab title="cURL">
-    <Steps>
-      <Step title="Assign assistant to phone number">
-        ```bash
-        curl -X PATCH "https://api.callhq.ai/phone-numbers/{phoneNumberId}" \
-          -H "Authorization: Bearer <your-api-key>" \
-          -H "Content-Type: application/json" \
-          -d '{
-            "assistantId": "your-assistant-id"
-          }'
-        ```
-      </Step>
-    </Steps>
-  </Tab>
+
 </Tabs>
 
 ## Make your first calls
@@ -119,16 +133,18 @@ CallHQ makes it easy to build voice agents that can make and receive phone calls
   </Step>
   <Step title="Initiate an outbound call via API">
     ```bash
-    curl -X POST "https://api.callhq.ai/calls" \
-      -H "Authorization: Bearer <your-api-key>" \
-      -H "Content-Type: application/json" \
-      -d '{
-        "assistantId": "your-assistant-id",
-        "phoneNumberId": "your-callhq-number-id",
-        "customer": {
-          "number": "+1234567890"
-        }
-      }'
+curl -X 'POST' \
+  'https://backend-callhq-385086326930.asia-south1.run.app/api/calls/outbound' \
+  -H 'accept: */*' \
+  -H 'Authorization: Bearer YOUR_TOKEN' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "assistantId": "fe5be098-d76b-7653-b354-bb8246d1d53d",
+  "phoneNumberId": "59090934-7b8b-45d6-9565-88a9cf53b6fb",
+  "customer": {
+    "number": "+919876543210"
+  }
+}'
     ```
   </Step>
 </Steps>
