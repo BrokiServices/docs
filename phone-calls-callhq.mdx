@@ -1,0 +1,147 @@
+---
+title: "Phone calls"
+subtitle: "Learn to make your first phone call with a voice agent"
+slug: "quickstart/phone"
+---
+
+## Overview
+
+CallHQ makes it easy to build voice agents that can make and receive phone calls. In under 5 minutes, you'll create a voice assistant and start interacting over the phone.
+
+**In this quickstart, you'll learn to:**
+
+- Create an assistant using the CallHQ Dashboard or programmatically
+- Set up a phone number
+- Make your first inbound and outbound calls
+
+## Prerequisites
+
+- [A CallHQ account](https://web.callhq.ai)
+- For API usage: API key from the CallHQ Developer Console
+
+## Create your first voice assistant
+
+<Tabs>
+  <Tab title="Dashboard">
+    <Steps>
+      <Step title="Open the CallHQ Dashboard">
+        Go to [web.callhq.ai](https://web.callhq.ai) and log in to your account.
+      </Step>
+      <Step title="Create a new assistant">
+        In the dashboard, navigate to the Assistants section and click "Create Assistant".
+      </Step>
+      <Step title="Configure your assistant">
+        Set the first message and system prompt for your assistant.
+
+        **First message:**
+
+        ```plaintext
+        Hi there, this is Alex from TechSolutions customer support. How can I help you today?
+        ```
+
+        **System prompt:**
+
+        ```plaintext
+        You are Alex, a customer service voice assistant for TechSolutions. Your primary purpose is to help customers resolve issues with their products, answer questions about services, and ensure a satisfying support experience.
+        - Sound friendly, patient, and knowledgeable without being condescending
+        - Use a conversational tone with natural speech patterns
+        - Speak with confidence but remain humble when you don't know something
+        - Demonstrate genuine concern for customer issues
+        ```
+      </Step>
+    </Steps>
+  </Tab>
+  <Tab title="cURL">
+    <Steps>
+      <Step title="Create the assistant via API">
+        ```bash
+        curl -X POST "https://api.callhq.ai/assistants" \
+          -H "Authorization: Bearer <your-api-key>" \
+          -H "Content-Type: application/json" \
+          -d '{
+            "name": "Customer Support Assistant",
+            "model": {
+              "provider": "openai",
+              "model": "gpt-4o",
+              "messages": [
+                {
+                  "role": "system",
+                  "content": "You are Alex, a customer service voice assistant for TechSolutions. Your primary purpose is to help customers resolve issues with their products, answer questions about services, and ensure a satisfying support experience."
+                }
+              ]
+            },
+            "voice": {
+              "provider": "callhq",
+              "voiceId": "sierra"
+            },
+            "firstMessage": "Hi there, this is Alex from TechSolutions customer support. How can I help you today?"
+          }'
+        ```
+      </Step>
+    </Steps>
+  </Tab>
+</Tabs>
+
+## Set up a phone number
+
+<Tabs>
+  <Tab title="Dashboard">
+    <Steps>
+      <Step title="Purchase or link a phone number">
+        In the Phone Numbers section, either purchase a CallHQ number or link your own via supported providers.
+      </Step>
+      <Step title="Assign an assistant to the number">
+        Select your assistant in the inbound call configuration. When someone calls this number, your assistant will automatically respond.
+      </Step>
+    </Steps>
+  </Tab>
+  <Tab title="cURL">
+    <Steps>
+      <Step title="Assign assistant to phone number">
+        ```bash
+        curl -X PATCH "https://api.callhq.ai/phone-numbers/{phoneNumberId}" \
+          -H "Authorization: Bearer <your-api-key>" \
+          -H "Content-Type: application/json" \
+          -d '{
+            "assistantId": "your-assistant-id"
+          }'
+        ```
+      </Step>
+    </Steps>
+  </Tab>
+</Tabs>
+
+## Make your first calls
+
+<Steps>
+  <Step title="Test inbound calling">
+    Call the number you've configured. Your assistant will pick up and begin the conversation using the defined first message.
+  </Step>
+  <Step title="Initiate an outbound call via API">
+    ```bash
+    curl -X POST "https://api.callhq.ai/calls" \
+      -H "Authorization: Bearer <your-api-key>" \
+      -H "Content-Type: application/json" \
+      -d '{
+        "assistantId": "your-assistant-id",
+        "phoneNumberId": "your-callhq-number-id",
+        "customer": {
+          "number": "+1234567890"
+        }
+      }'
+    ```
+  </Step>
+</Steps>
+
+## Next steps
+
+Now that you've launched your first voice assistant:
+
+- Customize system prompts for your use case
+- Enable API tools to trigger logic and workflows
+- Use the dashboard to monitor performance and transcripts
+- Scale voice automation with secure, programmable APIs
+
+<Tip>
+  Ready to add voice into your web app? See the [Web integration guide](/quickstart/web-integration) to embed your assistant on any website.
+</Tip>
