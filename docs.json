@@ -23,6 +23,7 @@
           {
             "group": "Building Guide",
             "pages": [
+              "guide/promptingguide",
               "guide/nativelanguageprompts"
             ]
           }
