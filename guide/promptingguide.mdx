@@ -1,45 +1,47 @@
 ---
 title: Voice AI Prompting Guide
-subtitle: How to write effective prompts for voice AI assistants
+subtitle: How to design effective prompts for CallHQ voice agents
 slug: prompting-guide
 icon: 'book'
 ---
 
 ## Overview
 
-This guide helps you write effective prompts for Voice AI assistants. Learn how to design, test, and refine prompts to get the best results from your agents. Use these strategies to improve your agent's reliability, success rate, and user experience.
+This guide is designed to help you craft effective prompts for CallHQ Voice AI agents. You'll learn how to structure, iterate, and optimize prompts to ensure accurate, human-like responses and high task completion rates.
 
-## Why prompt engineering matters
+## Why Prompt Design Matters
 
-Prompt engineering is the art of crafting clear, actionable instructions for AI agents. Well-designed prompts:
-- Guide the AI to produce accurate, relevant, and context-sensitive outputs
-- Improve the agent's ability to handle requests without human intervention
-- Increase your overall success rate
+Prompt design is the foundation of how your voice agent behaves. A well-structured prompt:
+- Guides the AI toward precise, context-aware responses
+- Reduces the need for human fallback
+- Increases success rate for automated workflows
 
-Poor prompts can lead to ambiguous or incorrect results, limiting the agent's utility.
+Poorly written prompts often result in confusion, misinterpretation, and user frustration.
 
-## How to measure success
 
-Your "success rate" is the percentage of requests your agent handles from start to finish without human intervention. The more complex your use case, the more you'll need to experiment and iterate on your prompt to improve this rate.
 
-## The process
+## Measuring Success
 
-Follow a structured approach to prompt engineering:
+A good prompt drives a high **completion rate** — the percentage of conversations that reach a successful outcome without requiring human intervention. Iterate on prompts to raise this success metric over time.
+## Prompt Engineering Workflow
+
+Follow this iterative process:
 
 <Steps>
   <Step title="Design">
-    Craft your initial prompt, considering the specific task, context, and desired outcome. Clear and detailed prompts help guide the AI in understanding your needs.
+    Create an initial version of the prompt with clear goals and instructions, tailored to the agent’s task and use case.
   </Step>
   <Step title="Test">
-    Run the prompt through the AI. Evaluate if the response aligns with your expectations and meets the intended goal. Testing helps identify potential gaps in clarity or structure.
+    Simulate conversations and observe how the agent responds to different inputs. Record gaps or unexpected behavior.
   </Step>
   <Step title="Refine">
-    Adjust the prompt based on test results. Reword, add detail, or change phrasing to avoid ambiguity and improve the response.
+    Adjust the prompt to add clarity, improve flow, and handle edge cases based on what you observed.
   </Step>
   <Step title="Repeat">
-    Iterate on the process, testing and refining until the AI's output is accurate and relevant. Your success rate should improve with each cycle.
+    Continuously test and refine the prompt until responses are consistent, helpful, and aligned with user expectations.
   </Step>
 </Steps>
+
 
 ## Principles of effective prompts
 
@@ -53,23 +55,25 @@ Break down system prompts into clear sections, each focused on a specific aspect
 
 **Example:**
 ```md wordWrap
-[Identity]
-You are a helpful and knowledgeable virtual assistant for a travel booking platform.
+[Identity]  
+You are a helpful and professional voice assistant for the front desk of a hotel. You assist guests with booking inquiries, reservation changes, amenities, and general hotel information.
 
-[Style]
-- Be informative and comprehensive.
-- Maintain a professional and polite tone.
-- Be concise, as you are currently operating as a Voice Conversation.
+[Style]  
+- Maintain a warm, polite, and professional tone.  
+- Keep responses concise, as this is a live voice interaction.  
+- Avoid jargon and use clear, everyday language.
 
-[Response Guideline]
-- Present dates in a clear format (e.g., January 15, 2024).
-- Offer up to three travel options based on user preferences.
+[Response Guideline]  
+- Provide check-in/check-out times in a friendly and clear format (e.g., "Check-in starts at 2 PM").  
+- When confirming or explaining bookings, always repeat key details such as room type, dates, and guest name.  
+- Offer to escalate to a human staff member if the query cannot be resolved.
 
-[Task]
-1. Greet the user and inquire about their desired travel destination.
-2. Ask about travel dates and preferences (e.g., budget, interests).
-3. Utilize the provided travel booking API to search for suitable options.
-4. Present the top three options to the user, highlighting key features.
+[Task]  
+1. Greet the caller and ask how you can assist today.  
+2. If the query is about a new booking, ask for check-in/check-out dates, number of guests, and room preference.  
+3. If the caller wants to modify or cancel a reservation, request the booking reference number and guest name.  
+4. For amenity or service inquiries, provide accurate details (e.g., breakfast hours, pool access, Wi-Fi info).  
+5. Escalate to a human staff member if the request cannot be handled by the assistant (e.g., special complaints or payment issues).  
 ```
 
 ### Break down complex tasks
