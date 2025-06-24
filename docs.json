@@ -44,18 +44,19 @@
           {
             "group": "Call",
             "pages": [
+              "api-reference/calls/list-calls",
              
-              "api-reference/calls/place-call"
+              "api-reference/calls/place-outbound-call"
             ]
           },
            {
             "group": "Assistant",
             "pages": [ 
-              "api-reference/assistants/get-assistant",
+              "api-reference/assistants/list-assistants",
              "api-reference/assistants/create-a-new-assistant",
              
                "api-reference/assistants/get-assistant-by-id",
-              "api-reference/assistants/update-an-assistant-by-id"
+              "api-reference/assistants/update-assistant"
                 
             ]
           }
