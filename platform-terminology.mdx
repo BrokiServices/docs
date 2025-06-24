@@ -1,0 +1,65 @@
+---
+title: Platform Terminology
+description: Understand the building blocks of CallHQ voice AI agents and the types of tasks they can perform
+slug: concepts/platform
+icon: 'cube'
+---
+
+# Platform Concepts
+
+> An overview of the key components that make up CallHQ Voice AI agents and the tasks these agents are capable of handling.
+
+## Voice AI Agent Architecture
+
+CallHQ allows you to create intelligent voice agents that can interact in real time and perform useful post-call actions. A CallHQ agent follows a modular pipeline:
+
+### 1. Input Medium
+
+The input method determines how the user interacts with the agent:
+
+- **Voice**: Via phone call or embedded web widget (microphone input)
+- **Text**: (Coming soon) Typed input via web chat
+- **Visual**: (Coming soon) Upload images or documents as part of the interaction
+
+### 2. ASR (Automatic Speech Recognition)
+
+Converts spoken input into text format. This transcription is sent to the LLM for further processing.
+
+### 3. LLM (Large Language Model)
+
+The LLM processes the transcribed text and generates a relevant response based on the agent's instructions, tone, and logic. This response is routed to the output processor.
+
+### 4. Output Generator
+
+Depending on the type of conversation:
+- For voice: **TTS (Text-to-Speech)** converts LLM output into natural audio
+- For visual or text output: responses may be rendered visually or as plain text (Coming soon)
+
+### 5. Output Medium
+
+Delivers the generated output to the user:
+- **Voice**: Played back on a call or in-browser via the web widget
+- **Text/Visual**: (Coming soon) Rendered as chat or rich content
+
+---
+
+## Tasks After Conversation
+
+CallHQ agents can also be configured to perform additional tasks once the primary conversation ends:
+
+### Post-Call Actions
+
+- **Call Summarization**  
+  Automatically summarize the entire conversation for review or CRM logging.
+
+- **Information Extraction**  
+  Extract structured fields such as customer name, reason for call, appointment time, etc.
+
+- **Function Tools (APIs & Triggers)**  
+  Use function tools to invoke APIs or external actions—e.g., booking a slot, sending a webhook, or updating a database.
+
+---
+
+<Tip>
+These components work together seamlessly, but you can swap and configure models (e.g., use Deepgram for ASR or ElevenLabs for TTS) via your CallHQ dashboard or API.
+</Tip>
