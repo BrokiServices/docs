@@ -1,7 +1,7 @@
 ---
 title: Prompts in Native Scripts
 description: Guidelines for writing multilingual prompts using native alphabets for accurate pronunciation and voice AI performance.
-slug: customizations/native-language-prompts
+slug: guide/native-language-prompts
 icon: 'text-size'
 ---
 
@@ -11,7 +11,7 @@ icon: 'text-size'
 
 CallHQ supports conversations in multiple languages out of the box. To achieve natural-sounding responses, it’s important to provide prompts in the **original script** of each language, instead of using transliterations written in English.
 
-Refer to our [list of supported languages](/customizations/multilingual-languages-support) to check if your preferred language is available.
+Refer to our [list of supported languages](/guide/languages-supported) to check if your preferred language is available.
 
 ## Prompting Voice Agents in Non-English Languages
 
@@ -39,6 +39,17 @@ Writing prompts in native scripts ensures:
 ## Examples: Native Script Prompting
 
 <Tabs>
+  <Tab title="Hindi">
+    ❌ Poor Example:
+
+    > Aapka order tayar hai, kirpya counter par le lijiye.
+
+    ✅ Recommended:
+
+    > आपका ऑर्डर तैयार है, कृपया काउंटर पर ले लीजिए।
+
+    <Tip>Hindi voice output becomes significantly more accurate when written in the Devanagari script.</Tip>
+  </Tab>
   <Tab title="French">
    ❌ Poor Example:
 
@@ -63,17 +74,7 @@ Writing prompts in native scripts ensures:
     <Tip>Spanish relies on accent marks and inverted punctuation to convey proper tone and inflection.</Tip>
   </Tab>
 
-  <Tab title="Hindi">
-    ❌ Poor Example:
 
-    > Aapka order tayar hai, kirpya counter par le lijiye.
-
-    ✅ Recommended:
-
-    > आपका ऑर्डर तैयार है, कृपया काउंटर पर ले लीजिए।
-
-    <Tip>Hindi voice output becomes significantly more accurate when written in the Devanagari script.</Tip>
-  </Tab>
 </Tabs>
 
 ***
