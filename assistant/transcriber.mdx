@@ -1,0 +1,67 @@
+---
+title: Transcriber Setup
+description: Configure how speech is transcribed into text using STT providers like Deepgram or AssemblyAI.
+icon: microphone
+---
+
+
+
+The **Transcriber** tab determines how your assistant converts spoken audio into text using a Speech-to-Text (STT) engine.
+
+To access this section:  
+**Build → Assistant → Select Assistant → Transcriber**
+
+---
+
+## Why Transcription Matters
+
+A fast, accurate transcriber ensures your assistant can understand callers clearly. The transcription engine directly affects recognition quality, especially across different languages, accents, and audio conditions.
+
+---
+
+## Supported Providers
+
+CallHQ supports the following transcription providers:
+
+- **Deepgram**
+- *(More coming soon)*
+
+Each provider offers its own balance of speed, accuracy, and pricing. You can select the one that best fits your use case and region.
+
+---
+
+## Configuration Options
+
+Depending on the provider you choose, you may be able to configure:
+
+### Language / Accent
+Choose the primary language of your callers (e.g., English, Hindi, Hinglish). Some providers also support accent-specific models.
+
+### Punctuation
+Enable smart punctuation to improve readability (adds commas, periods, etc.).
+
+### Profanity Filtering
+Automatically mask or filter offensive language, if enabled by the provider.
+
+### Confidence Threshold
+Set a minimum confidence score for transcribed segments to be considered valid.
+
+---
+## Background Denoising
+
+You can optionally enable **Background Denoising**, which filters out ambient noise (such as traffic, fans, or chatter) during transcription.
+
+When toggled on:
+- The transcriber applies noise suppression
+- This results in cleaner, more accurate transcriptions, especially in noisy environments
+
+---
+
+## Best Practices
+
+- Choose a provider optimized for your target language and audio environment.
+- Enable punctuation for assistants that return transcribed messages via chat or CRM.
+- Use confidence thresholds to reduce misinterpretation in noisy environments.
+
+---
+

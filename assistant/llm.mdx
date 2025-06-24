@@ -1,0 +1,64 @@
+---
+title: LLM Settings
+description: Configure the reasoning engine that powers your assistant, including model provider, temperature, and max tokens.
+icon: brain-circuit
+---
+
+
+
+The **LLM** tab controls the core reasoning capabilities of your assistant. This is where you choose which language model (LLM) to use and how it should behave during conversations.
+
+To access this section:  
+**Build → Assistant → Select Assistant → LLM**
+
+---
+
+## Choose LLM Model
+
+CallHQ currently supports the following model providers:
+
+- **OpenAI**: Models like GPT-4, GPT-3.5
+- **Google**: Models like Gemini 1.5 Pro, Gemini 2.0 Flash
+
+Use the dropdowns to select:
+- The **provider** (e.g., `openai` or `google`)
+- The **model variant** (e.g., `GPT-4` or `Gemini 2.0 Flash`)
+
+Choose a model based on the nature of your assistant:
+- Use **Gemini Flash** for faster response times
+- Use **GPT-4** for richer context understanding
+
+---
+
+## Temperature
+
+The **temperature** controls how creative or deterministic your assistant's responses are:
+
+- **Lower values (e.g., 0.2)**: More focused and predictable.
+- **Higher values (e.g., 0.7+)**: More open-ended and creative.
+
+Default: `0.5`
+
+Use lower values for customer service, and higher values for creative or conversational agents.
+
+---
+
+## Max Tokens
+
+The **Max Tokens** field controls how much the assistant can say in a single response.
+
+Example:
+- `50 tokens` equals approximately 30–40 words.
+
+This ensures that responses stay concise and do not overwhelm the user.
+
+---
+
+## Best Practices
+
+- Use OpenAI models when you need highly nuanced answers.
+- Use Gemini Flash when latency is a concern (faster responses).
+- Keep temperature balanced between 0.4–0.6 for most assistants.
+- Set Max Tokens based on your expected turn length and user tolerance.
+
+---

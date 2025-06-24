@@ -29,6 +29,19 @@
               "guide/native-language-prompts",
               "guide/languages-supported"
             ]
+          } ,
+          {
+            "group": "Assistant",
+            "pages": [
+              "assistant/overview",
+               "assistant/agent",
+                "assistant/llm",
+                 "assistant/transcriber",
+                 "assistant/voice",
+                  "assistant/testing"
+
+
+            ]
           }
         ]
       },
