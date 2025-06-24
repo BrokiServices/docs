@@ -124,7 +124,7 @@
     },
     "/assistants": {
       "get": {
-        "summary": "Get Assistant",
+        "summary": "List Assistants",
         "tags": [
           "Assistants"
         ],
@@ -333,7 +333,7 @@
     },
     "/assistants/{id}": {
       "get": {
-        "summary": "Get Assistant By ID",
+        "summary": "Get Assistant",
         "tags": [
           "Assistants"
         ],
@@ -361,7 +361,153 @@
             "description": "Assistant not found"
           }
         }
+      },
+
+  "patch": {
+    "summary": "Update Assistant",
+    "tags": ["Assistants"],
+    "security": [
+      { "bearerAuth": [] }
+    ],
+    "parameters": [
+      {
+        "in": "path",
+        "name": "id",
+        "required": true,
+        "schema": {
+          "type": "string"
+        },
+        "description": "Assistant ID"
       }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "description": "Fields to update. Only `name`, `status`, and `description` will be updated locally.",
+            "properties": {
+              "name": {
+                "type": "string",
+                "example": "Updated Assistant"
+              },
+              "status": {
+                "type": "boolean",
+                "example": true
+              },
+              "description": {
+                "type": "string",
+                "example": "This assistant handles hospitality queries."
+              },
+              "voice": {
+                "type": "object",
+                "properties": {
+                  "provider": {
+                    "type": "string",
+                    "enum": ["CallHQ"],
+                    "example": "CallHQ"
+                  },
+                  "voiceId": {
+                    "type": "string",
+                    "enum": [
+                      "Paige", "Rohan", "Hana", "Elliot", "Kylie",
+                      "Savannah", "Cole", "Harry", "Spencer", "Neha", "Lily"
+                    ],
+                    "example": "Neha"
+                  },
+                  "speed": {
+                    "type": "number",
+                    "example": 1
+                  }
+                }
+              },
+              "model": {
+                "type": "object",
+                "properties": {
+                  "provider": {
+                    "type": "string",
+                    "enum": ["google", "openai", "anthropic"],
+                    "example": "google"
+                  },
+                  "model": {
+                    "type": "string",
+                    "example": "gemini-1.5-pro"
+                  },
+                  "temperature": {
+                    "type": "number",
+                    "example": 0.5
+                  },
+                  "maxTokens": {
+                    "type": "integer",
+                    "example": 250
+                  },
+                  "emotionRecognitionEnabled": {
+                    "type": "boolean",
+                    "example": false
+                  },
+                  "messages": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "role": {
+                          "type": "string",
+                          "example": "system"
+                        },
+                        "content": {
+                          "type": "string",
+                          "example": "This is a blank template with minimal defaults, you can change the model, temperature, and messages."
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "firstMessage": {
+                "type": "string",
+                "example": "Hi! How can I help you today?"
+              },
+              "firstMessageMode": {
+                "type": "string",
+                "enum": ["assistant-speaks-first", "user-speaks-first"],
+                "example": "assistant-speaks-first"
+              },
+              "backgroundSound": {
+                "type": "string",
+                "example": "office"
+              },
+              "silenceTimeoutSeconds": {
+                "type": "integer",
+                "example": 10
+              },
+              "backgroundDenoisingEnabled": {
+                "type": "boolean",
+                "example": true
+              },
+              "firstMessageInterruptionsEnabled": {
+                "type": "boolean",
+                "example": false
+              },
+              "maxDurationSeconds": {
+                "type": "integer",
+                "example": 3600
+              }
+            }
+          }
+        }
+      }
+    },
+    "responses": {
+      "200": {
+        "description": "Assistant updated successfully"
+      },
+      "404": {
+        "description": "Assistant not found"
+      }
+    }
+  }
+
     }
   },
   "webhooks": {},

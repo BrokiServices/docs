@@ -50,10 +50,12 @@
           },
            {
             "group": "Assistant",
-            "pages": [
-             "api-reference/assistants/create-a-new-assistant",
+            "pages": [ 
               "api-reference/assistants/get-assistant",
-               "api-reference/assistants/get-assistant-by-id"
+             "api-reference/assistants/create-a-new-assistant",
+             
+               "api-reference/assistants/get-assistant-by-id",
+              "api-reference/assistants/update-an-assistant-by-id"
                 
             ]
           }
