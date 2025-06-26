@@ -46,7 +46,8 @@
             "pages": [
               "phone/phone-numbers",
               "phone/sip",
-              "phone/ai-caller-using-indian-phone-numbers"
+              "phone/ai-caller-using-indian-phone-numbers",
+              "phone/call-ended-reasons"
             ]
           }
         ]

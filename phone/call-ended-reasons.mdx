@@ -1,0 +1,70 @@
+---
+title: Call Ended Reasons
+description: All possible values of `endedReason` for a call in CallHQ and what they mean.
+slug: calls/call-ended-reason
+icon : phone-slash
+---
+
+# Call Ended Reasons
+
+> Understand the different `endedReason` codes in your CallHQ call logs. These indicate how and why a call was concluded.
+
+<Note>
+You can find `endedReason` in the [Call Object](/api-reference/calls/get-call) or in your call logs on the [CallHQ Dashboard](https://dashboard.callhq.ai/calls).
+</Note>
+
+## Assistant-related
+
+- `assistant-ended-call`: Assistant intentionally ended the call.
+- `assistant-ended-call-after-message-spoken`: Assistant played a final message and then ended the call.
+- `assistant-said-end-call-phrase`: Assistant detected a keyword/phrase that signals call termination.
+- `assistant-forwarded-call`: Call was transferred to another number.
+- `assistant-join-timed-out`: Assistant failed to join the call in time.
+- `assistant-not-found`: Assistant ID was invalid or not found.
+- `assistant-request-failed`: Failed to communicate with the assistant.
+- `assistant-request-returned-error`: Assistant responded with an error.
+
+## LLM and Pipeline Errors
+
+- `pipeline-error-*`: Internal errors in the assistant's logic or model.
+- `call.in-progress.error-providerfault-*`: Errors from the model/STT/TTS provider (e.g., OpenAI, Google).
+- `pipeline-no-available-llm-model`: No LLM model available to fulfill the request.
+
+## Customer and Phone-related
+
+- `customer-busy`: Customer’s phone line was busy.
+- `customer-ended-call`: Customer hung up.
+- `customer-did-not-answer`: No answer from the customer.
+- `customer-did-not-give-microphone-permission`: Web call user denied mic permission.
+- `call.in-progress.error-assistant-did-not-receive-customer-audio`: No audio from user received.
+- `twilio-failed-to-connect-call`: Twilio failed to initiate or complete the call.
+- `twilio-reported-customer-misdialed`: Customer entered an invalid number.
+- `sip-provider-disconnected`: SIP provider ended the connection.
+
+## Call Start Errors
+
+- `call.start.error-get-assistant`: Failed to fetch assistant details.
+- `call.start.error-get-phone-number`: Phone number not available or not assigned.
+- `call.start.error-get-customer`: Customer data missing or invalid.
+- `call.start.error-resource-validation`: Resource validation failed before starting call.
+- `call.start.error-daily-outbound-limit`: Outbound limit reached for phone number.
+
+## Call Hooks and Forwarding
+
+- `call.ringing.hook-executed-transfer`: Forwarding logic triggered during ringing.
+- `call.ringing.hook-executed-say`: Pre-call message or say task triggered.
+- `call.forwarding.operator-busy`: Target operator was busy during forwarding.
+
+## Other
+
+- `database-error`: Error interacting with internal DB.
+- `manually-canceled`: The call was cancelled by an admin or user.
+- `silence-timed-out`: Assistant ended call due to prolonged silence.
+- `exceeded-max-duration`: Maximum call duration exceeded.
+- `voicemail`: Call went to voicemail.
+- `worker-shutdown`: The call handling worker was terminated.
+
+## Unknown
+
+- `unknown-error`: Unknown or unexpected issue. Please contact [CallHQ support](/support) with your call ID.
+
