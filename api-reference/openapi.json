@@ -21,10 +21,11 @@
   "paths": {
     "/auth/login": {
       "post": {
-        "summary": "Login user",
+        "summary": "Get Authentication Token",
         "tags": [
           "Auth"
         ],
+        "security": [], 
         "requestBody": {
           "required": true,
           "content": {

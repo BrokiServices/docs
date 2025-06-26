@@ -61,6 +61,13 @@
             ]
           },
           {
+            "group": "Authentication",
+            "pages":[
+              "api-reference/auth/get-authentication-token"
+            ]
+
+          },
+          {
             "group": "Assistant",
             "pages": [
               "api-reference/assistants/list-assistants",
