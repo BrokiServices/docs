@@ -231,6 +231,70 @@
         }
       }
     },
+    "/calls/details": {
+  "get": {
+    "summary": "Get Call Details",
+    "tags": ["Calls"],
+    "security": [
+      {
+        "bearerAuth": []
+      }
+    ],
+    "parameters": [
+      {
+        "in": "query",
+        "name": "id",
+        "schema": {
+          "type": "string"
+        },
+        "description": "Filter by specific call ID."
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "List of call records retrieved successfully.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "calls": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "assistantId": {
+                        "type": "string"
+                      },
+                      "phoneNumberId": {
+                        "type": "string"
+                      },
+                      "createdAt": {
+                        "type": "string"
+                      },
+                      "updatedAt": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "500": {
+        "description": "Error fetching call records."
+      }
+    }
+  }
+},
     "/assistants": {
       "get": {
         "summary": "List Assistants",

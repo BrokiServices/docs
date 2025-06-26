@@ -19,7 +19,6 @@
               "index",
               "platform-terminology",
               "phonecalls",
-              
               "webcall-widget"
             ]
           },
@@ -30,18 +29,16 @@
               "guide/native-language-prompts",
               "guide/languages-supported"
             ]
-          } ,
+          },
           {
             "group": "Assistant",
             "pages": [
               "assistant/overview",
-               "assistant/agent",
-                "assistant/llm",
-                 "assistant/transcriber",
-                 "assistant/voice",
-                  "assistant/testing"
-
-
+              "assistant/agent",
+              "assistant/llm",
+              "assistant/transcriber",
+              "assistant/voice",
+              "assistant/testing"
             ]
           },
           {
@@ -50,10 +47,6 @@
               "phone/phone-numbers",
               "phone/sip",
               "phone/ai-caller-using-indian-phone-numbers"
-            
-             
-
-
             ]
           }
         ]
@@ -67,32 +60,28 @@
               "api-reference/introduction"
             ]
           },
-         
+          {
+            "group": "Assistant",
+            "pages": [
+              "api-reference/assistants/list-assistants",
+              "api-reference/assistants/create-a-new-assistant",
+              "api-reference/assistants/get-assistant-by-id",
+              "api-reference/assistants/update-assistant"
+            ]
+          },
           {
             "group": "Call",
             "pages": [
               "api-reference/calls/list-calls",
-             
+              "api-reference/calls/get-call-details",
               "api-reference/calls/place-outbound-call"
             ]
-          },
-           {
-            "group": "Assistant",
-            "pages": [ 
-              "api-reference/assistants/list-assistants",
-             "api-reference/assistants/create-a-new-assistant",
-             
-               "api-reference/assistants/get-assistant-by-id",
-              "api-reference/assistants/update-assistant"
-                
-            ]
           }
+          
         ]
       }
     ],
-    "global": {
-      
-    }
+    "global": {}
   },
   "logo": {
     "light": "/logo/light.svg",
