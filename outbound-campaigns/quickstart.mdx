@@ -1,0 +1,99 @@
+---
+title: Quickstart
+subtitle: >-
+  Build a personalized outbound campaign to collect feedback, follow up with customers, and enhance service experience.
+description: >-
+  Learn how to create, launch, and monitor outbound campaigns with CallHQ to automate post-service calls and gather insights.
+icon : rocket
+slug:
+---
+
+## Overview
+
+Launch your first outbound campaign using **CallHQ** to collect customer feedback or trigger personalized follow-up calls. This guide walks you through uploading contacts, selecting a voice agent (Assistant), and analyzing call outcomes.
+
+
+**In this quickstart, you'll learn how to:**
+- Set up an outbound calling campaign
+- Use personalized voice agents for follow-ups
+- Upload and manage a CSV contact list
+- Monitor campaign performance and track call results
+
+## Prerequisites
+
+- A [CallHQ account](https://web.callhq.ai)
+- At least one voice assistant (AI agent) configured in your dashboard
+- A verified phone number connected to your organization
+- A CSV list of recipients (name, phone number, optional metadata)
+
+---
+
+## 1. Launch a Campaign
+
+<Steps>
+  <Step title="Log in to CallHQ Dashboard">
+    Go to [web.callhq.ai](https://web.callhq.ai) and log in with your credentials.
+  </Step>
+
+  <Step title="Go to Outbound Campaigns">
+    Click `Outbound Campaigns` in the sidebar to enter the campaign creation section.
+  </Step>
+
+  <Step title="Create New Campaign">
+    - Click **+ New Campaign**
+    - Add a name (e.g. "Customer Feedback Followup")
+    - Choose the campaign type (e.g. One-time or Recurring)
+  </Step>
+
+  <Step title="Assign a Phone Number">
+    Choose a verified number from your list (Twilio, Exotel, etc.). This will be used to initiate all outbound calls.
+  </Step>
+
+  <Step title="Upload Recipients CSV">
+    - Click **Upload Contacts**
+    - Drag and drop your CSV file (must include phone number and name columns)
+    - Review and map columns
+    - Follow [CSV formatting guidelines](/outbound-campaigns/csv-format)
+  </Step>
+
+  <Step title="Select Assistant">
+    Choose one of your configured AI agents that will speak to customers. You can use a general feedback script or a customized prompt.
+  </Step>
+
+  <Step title="Review & Launch">
+    - Confirm settings, assistant selection, and contact count
+    - Click **Launch Campaign**
+  </Step>
+</Steps>
+
+---
+
+## 2. Monitor Campaign Results
+
+<Steps>
+  <Step title="Track Campaign Overview">
+    After launch, use the Campaign Dashboard to see:
+    - Number of completed vs. pending calls
+    - Real-time status updates
+    - Scheduled retry logic
+  </Step>
+
+  <Step title="Inspect Call Logs">
+    For each call, review:
+    - Status (Completed, Missed, Voicemail, etc.)
+    - Call duration
+    - Assistant transcript
+    - Voice recording (if enabled)
+  </Step>
+
+  <Step title="Cancel or Retry Calls">
+    Cancel scheduled campaigns or retry failed ones directly from the dashboard.
+  </Step>
+</Steps>
+
+---
+
+<Note>
+This is a basic campaign walkthrough. For advanced workflows like auto-tagging leads, webhook triggers, or conditional assistant flows, visit our [campaigns documentation](/outbound-campaigns/overview).
+</Note>
+

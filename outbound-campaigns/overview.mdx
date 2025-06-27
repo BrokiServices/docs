@@ -1,0 +1,102 @@
+---
+title: Campaigns Overview
+subtitle: >-
+  Create, execute, and manage outbound phone campaigns directly within the CallHQ
+  Dashboard
+slug: outbound-campaigns/overview
+description: >-
+  Learn how to schedule calls, manage recipients, analyze performance metrics, and review call transcripts using CallHQ’s voice AI-powered Outbound Campaigns
+icon: "eye"
+---
+
+## Overview
+
+CallHQ’s Outbound Campaigns let you run scalable, personalized calling campaigns powered by AI voice agents. Schedule large batches of outbound calls, assign AI assistants, personalize responses with dynamic variables, and monitor performance in real time from the CallHQ Dashboard.
+
+
+## Key Benefits
+
+- **Easy Setup**: Launch campaigns in minutes with our intuitive step-by-step interface.
+- **Personalized Outreach**: Customize each call using dynamic variables from your CSV list.
+- **Real-time Insights**: Monitor campaign success with call-level breakdowns, transcripts, and pickup stats.
+
+## Common Use Cases
+
+- **Lead Qualification**: Auto-call prospects to gather key qualifying info.
+- **Appointment Reminders**: Reduce no-shows with proactive reminder calls.
+- **Customer Feedback**: Run automated post-service feedback surveys.
+- **Payment or Policy Reminders**: Notify users about dues, renewals, or changes.
+- **Brand Campaigns**: Launch mass outbound call campaigns for new feature announcements or offers.
+
+## Campaign Setup Process
+
+<Steps>
+  <Step title="Configure Campaign">
+    Give your campaign a name and choose its purpose.
+  </Step>
+
+  <Step title="Choose Phone Number">
+    Select the outbound number you want to use. This must be an active number set up in your CallHQ dashboard.
+  </Step>
+
+  <Step title="Upload Recipients">
+    Upload a CSV file with your recipient list. The minimum required column is `number` in E.164 format (e.g. +919876543210).
+  </Step>
+
+  <Step title="Assign Assistant">
+    Choose which AI Assistant will handle the calls for this campaign.
+  </Step>
+
+  <Step title="Launch or Schedule">
+    Review all details and either launch the campaign immediately or schedule it for a later time.
+  </Step>
+</Steps>
+
+## Campaign Analytics
+
+Get detailed, actionable insights directly from the dashboard:
+
+- **Campaign Metrics**: Pickup rate, completion rate, call status breakdown.
+- **Call Logs**: Access per-call data, transcripts, durations, and assistant responses.
+- **Downloadable Reports**: Export logs and summaries as CSV or JSON.
+
+## Required CSV Format
+
+| number | name  | issue         |
+|--------|-------|---------------|
+| +919876543210 | Akash  | password reset |
+| +919801234567 | Jatin  | address update |
+
+<Note>
+The `number` column is required and must be formatted in [E.164](https://en.wikipedia.org/wiki/E.164): `+` followed by country code and number (no spaces or dashes).
+</Note>
+
+## Tips for Clean Data
+
+- Save CSV using **UTF-8 encoding**.
+- Avoid empty rows or duplicate headers.
+- Make sure column headers match the dynamic variables you use inside assistant prompts (e.g. `{{name}}`, `{{issue}}`).
+
+## Dynamic Variables
+
+Use custom variables in your CSV to personalize conversations. These can be referenced inside the assistant prompt 
+
+<Note>
+- Column names must start with a letter.
+- No spaces allowed in column names (use `{{customer_issue}}` not `{{customer issue}}`).
+- You can also use [Default Assistant Variables](/assistant/dynamic-variables).
+</Note>
+
+## Concurrency Limits
+
+Each CallHQ organization has a **concurrency limit**—the number of simultaneous calls your account can place. If your concurrency is 10, only 10 calls run at once, and the rest are queued.
+
+To increase call throughput, contact support to raise your concurrency limit.
+
+Note: your telephony provider may also have their own limits or daily caps.
+
+---
+
+<Tip>
+Need help setting up your first campaign? Start with our [quickstart guide](/outbound-campaigns/quickstart) or reach out to our team.
+</Tip>

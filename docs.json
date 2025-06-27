@@ -38,7 +38,8 @@
               "assistant/llm",
               "assistant/transcriber",
               "assistant/voice",
-              "assistant/testing"
+              "assistant/testing",
+              "assistant/dynamic-variables"
             ]
           },
           {
@@ -48,6 +49,13 @@
               "phone/sip",
               "phone/ai-caller-using-indian-phone-numbers",
               "phone/call-ended-reasons"
+            ]
+          },
+          {
+            "group": "Outbound Campaign ",
+            "pages": [
+              "outbound-campaigns/quickstart",
+               "outbound-campaigns/overview"
             ]
           }
         ]
