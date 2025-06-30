@@ -40,6 +40,7 @@
               "assistant/voice",
               "assistant/testing",
               "assistant/dynamic-variables"
+               
             ]
           },
           {
@@ -56,6 +57,20 @@
             "pages": [
               "outbound-campaigns/quickstart",
                "outbound-campaigns/overview"
+            ]
+          },
+          {
+            "group": "Sample Assistants",
+            "pages": [
+              "sample-assistants/customer-support-assistant",
+               "sample-assistants/lead-qualification-expert",
+              "sample-assistants/appointment-scheduling-assistant",
+               "sample-assistants/info-collector-assistant",
+                "sample-assistants/care-coordinator-assistant",
+                "sample-assistants/feedback-gatherer-assistant"
+             
+
+             
             ]
           }
         ]
