@@ -84,13 +84,7 @@
               "api-reference/introduction"
             ]
           },
-          {
-            "group": "Authentication",
-            "pages":[
-              "api-reference/auth/get-authentication-token"
-            ]
 
-          },
           {
             "group": "Assistant",
             "pages": [

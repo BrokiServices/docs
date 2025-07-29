@@ -30,12 +30,12 @@ The API key will be shown only once. Please store it securely, as it cannot be r
 
 ## Using the API Key
 
-Include the API key in the `Authorization` header of your HTTP requests using the `Bearer` token scheme.
+Include the API key in the `x-api-key` header of your HTTP requests.
 
 ### Header Format
 
 ```
-Authorization: Bearer <your_api_key>
+x-api-key: <your_api_key>
 ```
 
 ## Example: Authenticated Request
@@ -45,14 +45,14 @@ Below is an example of how to make an authenticated GET request to retrieve all 
 ```
 GET https://api.callhq.ai/assistants/all
 Headers:
-  Authorization: Bearer <your_api_key>
+  x-api-key: <your_api_key>
 ```
 
 This will return a list of assistants created under your organization, along with their metadata.
 
 ## Next Steps
 
-You’re now ready to start building. Explore the following sections to:
+You're now ready to start building. Explore the following sections to:
 
 - Create your first voice assistant
 - Manage call flows using Workflows

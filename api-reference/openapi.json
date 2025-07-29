@@ -15,46 +15,10 @@
   ],
   "security": [
     {
-      "bearerAuth": []
+      "apiKeyAuth": []
     }
   ],
   "paths": {
-    "/auth/login": {
-      "post": {
-        "summary": "Get Authentication Token",
-        "tags": [
-          "Auth"
-        ],
-        "security": [], 
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "required": [
-                  "email",
-                  "password"
-                ],
-                "properties": {
-                  "email": {
-                    "type": "string"
-                  },
-                  "password": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Login successful"
-          }
-        }
-      }
-    },
     "/calls": {
       "get": {
         "summary": "List Calls",
@@ -63,7 +27,7 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "apiKeyAuth": []
           }
         ],
         "parameters": [
@@ -172,7 +136,7 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "apiKeyAuth": []
           }
         ],
         "requestBody": {
@@ -238,7 +202,7 @@
     "tags": ["Calls"],
     "security": [
       {
-        "bearerAuth": []
+        "apiKeyAuth": []
       }
     ],
     "parameters": [
@@ -304,7 +268,7 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "apiKeyAuth": []
           }
         ],
         "parameters": [
@@ -346,7 +310,7 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "apiKeyAuth": []
           }
         ],
         "requestBody": {
@@ -513,7 +477,7 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "apiKeyAuth": []
           }
         ],
         "parameters": [
@@ -543,7 +507,7 @@
         ],
         "security": [
           {
-            "bearerAuth": []
+            "apiKeyAuth": []
           }
         ],
         "parameters": [
@@ -761,9 +725,10 @@
       }
     },
     "securitySchemes": {
-      "bearerAuth": {
-        "type": "http",
-        "scheme": "bearer"
+      "apiKeyAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "x-api-key"
       }
     }
   }
