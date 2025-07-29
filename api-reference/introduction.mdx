@@ -15,18 +15,25 @@ CallHQ APIs are built with simplicity, consistency, and flexibility in mind. The
 You must have a valid CallHQ account to access and use API keys.
 </Note>
 
-## Authentication
+## Authentication & API Key Generation
 
 To authenticate with the CallHQ API, follow these steps:
 
 1. Log in to your dashboard at [https://web.callhq.ai](https://web.callhq.ai)
-2. Navigate to the **Developers** section from the left-hand sidebar
-3. Click the **Generate API Key** button to create a new API key
+2. Navigate to the **API Keys** section from the left-hand sidebar under **Build**
+3. Click the **Generate Key** button to create a new API key
 4. Save your API key securely for future use
 
 <Note>
 The API key will be shown only once. Please store it securely, as it cannot be retrieved again once lost.
 </Note>
+
+### Important Notes About API Keys
+
+- **API keys are hashed and cannot be retrieved once generated.** If you need a new key, use the regenerate option.
+- **Note: Regenerating the API key will invalidate the previous one.**
+- **Use this key to authenticate server-to-server communication.**
+- **Keep it private and never expose it in public code.**
 
 ## Using the API Key
 
