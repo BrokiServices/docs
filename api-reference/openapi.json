@@ -10,7 +10,7 @@
   },
   "servers": [
     {
-      "url": "https://backend-callhq-385086326930.asia-south1.run.app/api"
+      "url": "https://api.callhq.ai/api"
     }
   ],
   "security": [

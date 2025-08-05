@@ -67,7 +67,7 @@ You are Emily, an appointment scheduling voice assistant for Health Care Solutio
       <Step title="Create the assistant via API">
         ```bash
         curl -X 'POST' \
-  'https://backend-callhq-385086326930.asia-south1.run.app/api/assistants' \
+  'https://api.callhq.ai/api/assistants' \
   -H 'accept: */*' \
   -H 'x-api-key: YOUR_API_KEY' \
   -H 'Content-Type: application/json' \
@@ -135,7 +135,7 @@ You are Emily, an appointment scheduling voice assistant for Health Care Solutio
   <Step title="Initiate an outbound call via API">
     ```bash
 curl -X 'POST' \
-  'https://backend-callhq-385086326930.asia-south1.run.app/api/calls/outbound' \
+  'https://api.callhq.ai/api/calls/outbound' \
   -H 'accept: */*' \
   -H 'x-api-key: YOUR_API_KEY' \
   -H 'Content-Type: application/json' \
