@@ -101,6 +101,12 @@
               "api-reference/calls/get-call-details",
               "api-reference/calls/place-outbound-call"
             ]
+          },
+          {
+            "group": "Phone Numbers",
+            "pages": [
+              "api-reference/phone/list-phone-numbers"
+            ]
           }
           
         ]
