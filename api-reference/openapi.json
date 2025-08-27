@@ -702,6 +702,173 @@
           }
         }
       }
+    },
+    "/sessions": {
+      "post": {
+        "summary": "Create Chat Session",
+        "tags": [
+          "Chat"
+        ],
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "name",
+                  "assistantId"
+                ],
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Name of the chat session"
+                  },
+                  "assistantId": {
+                    "type": "string",
+                    "description": "ID of the assistant to use for this session"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Session created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SessionResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - missing required fields"
+          },
+          "404": {
+            "description": "Assistant not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/chats": {
+      "post": {
+        "summary": "Send Chat Message",
+        "tags": [
+          "Chat"
+        ],
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "sessionId",
+                  "input"
+                ],
+                "properties": {
+                  "sessionId": {
+                    "type": "string",
+                    "description": "ID of the session to send the message to"
+                  },
+                  "input": {
+                    "type": "string",
+                    "description": "User's message input"
+                  },
+                  "assistantOverrides": {
+                    "type": "object",
+                    "properties": {
+                      "variableValues": {
+                        "type": "object",
+                        "description": "Dynamic variables to inject into the conversation"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Chat message sent successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChatResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - missing required fields"
+          },
+          "404": {
+            "description": "Session not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/chats/session/{sessionId}": {
+      "get": {
+        "summary": "Get Session Conversation",
+        "tags": [
+          "Chat"
+        ],
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "sessionId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the session to retrieve"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Session conversation retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SessionConversationResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Session not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
     }
   },
   "webhooks": {},
@@ -810,6 +977,193 @@
               "name": {
                 "type": "string",
                 "description": "Organization name"
+              }
+            }
+          }
+        }
+      },
+      "ChatResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Response message"
+          },
+          "chat": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "Unique identifier for the chat"
+              },
+              "externalChatId": {
+                "type": "string",
+                "description": "External chat identifier"
+              },
+              "sessionId": {
+                "type": "string",
+                "description": "ID of the session this chat belongs to"
+              },
+              "input": {
+                "type": "string",
+                "description": "User's input message"
+              },
+              "output": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "role": {
+                      "type": "string",
+                      "enum": ["user", "assistant"],
+                      "description": "Role of the message sender"
+                    },
+                    "content": {
+                      "type": "string",
+                      "description": "Content of the message"
+                    }
+                  }
+                }
+              },
+              "assistantId": {
+                "type": "string",
+                "description": "ID of the assistant that responded"
+              },
+              "status": {
+                "type": "string",
+                "description": "Status of the chat"
+              },
+              "cost": {
+                "type": "number",
+                "description": "Cost of the chat interaction"
+              },
+              "createdAt": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Creation timestamp"
+              },
+              "updatedAt": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Last update timestamp"
+              },
+              "assistantOverrides": {
+                "type": "object",
+                "properties": {
+                  "variableValues": {
+                    "type": "object",
+                    "description": "Dynamic variables used in the conversation"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "SessionResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Response message"
+          },
+          "session": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "Unique identifier for the session"
+              },
+              "name": {
+                "type": "string",
+                "description": "Name of the session"
+              },
+              "assistantId": {
+                "type": "string",
+                "description": "ID of the assistant used in this session"
+              },
+              "status": {
+                "type": "string",
+                "description": "Status of the session"
+              },
+              "messages": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "role": {
+                      "type": "string",
+                      "enum": ["user", "assistant"],
+                      "description": "Role of the message sender"
+                    },
+                    "content": {
+                      "type": "string",
+                      "description": "Content of the message"
+                    }
+                  }
+                }
+              },
+              "createdAt": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Creation timestamp"
+              },
+              "updatedAt": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Last update timestamp"
+              }
+            }
+          }
+        }
+      },
+      "SessionConversationResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Response message"
+          },
+          "session": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "Unique identifier for the session"
+              },
+              "name": {
+                "type": "string",
+                "description": "Name of the session"
+              },
+              "status": {
+                "type": "string",
+                "description": "Status of the session"
+              },
+              "assistantId": {
+                "type": "string",
+                "description": "ID of the assistant used in this session"
+              },
+              "messages": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "role": {
+                      "type": "string",
+                      "enum": ["user", "assistant"],
+                      "description": "Role of the message sender"
+                    },
+                    "content": {
+                      "type": "string",
+                      "description": "Content of the message"
+                    }
+                  }
+                }
+              },
+              "updatedAt": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Last update timestamp"
               }
             }
           }

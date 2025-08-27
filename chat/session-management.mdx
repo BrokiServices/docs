@@ -1,0 +1,376 @@
+---
+title: Session management
+subtitle: Maintain conversation context using CallHQ sessions
+slug: chat/session-management
+icon : clock
+---
+
+
+
+CallHQ provides a robust session-based approach for maintaining conversation context across multiple chat interactions.
+
+**Session-Based Context Management:**
+* **`sessionId`** - Groups multiple chats under a persistent session
+* **Automatic Context Preservation** - All messages within a session maintain conversation history
+* **Easy Session Management** - Create, use, and retrieve sessions with simple API calls
+
+## Prerequisites
+
+* Completed [Chat quickstart](/chat/quickstart) tutorial
+* Basic understanding of chat requests and responses
+
+---
+
+## How Sessions Work
+
+Sessions in CallHQ provide a persistent container for conversations. Once you create a session, all subsequent messages sent to that session automatically maintain context and conversation history.
+
+<Warning>
+**Important Session Information:**
+- **Sessions expire automatically after 24 hours by default**
+- **After expiration, you'll need to create a new session to continue conversations**
+- **Web chat widget and SMS conversations automatically manage session creation and expiration**
+- **You don't need to manually create or manage sessions when using these channels**
+</Warning>
+
+<Steps>
+  <Step title="Create a session">
+    Start by creating a new chat session with your assistant:
+    
+    ```bash title="Create Session"
+    curl -X POST https://api.callhq.ai/api/sessions \
+      -H "x-api-key: YOUR_API_KEY" \
+      -H "Content-Type: application/json" \
+      -d '{
+        "name": "Customer Support Session",
+        "assistantId": "your-assistant-id"
+      }'
+    ```
+  </Step>
+  <Step title="Get session ID from response">
+    The response will include your session ID:
+    
+    ```json title="Session Response"
+    {
+      "message": "Session created successfully",
+      "session": {
+        "id": "session-abc123",
+        "name": "Customer Support Session",
+        "assistantId": "your-assistant-id",
+        "status": "active",
+        "messages": [],
+        "createdAt": "2024-01-15T09:30:00Z",
+        "updatedAt": "2024-01-15T09:30:00Z"
+      }
+    }
+    ```
+  </Step>
+  <Step title="Use session ID in all related chats">
+    Send messages using the session ID to maintain context:
+    
+    ```bash title="First Chat in Session"
+    curl -X POST https://api.callhq.ai/api/chats \
+      -H "x-api-key: YOUR_API_KEY" \
+      -H "Content-Type: application/json" \
+      -d '{
+        "sessionId": "session-abc123",
+        "input": "Hello, I need help with billing"
+      }'
+    ```
+  </Step>
+</Steps>
+
+---
+
+## TypeScript Session Manager
+
+Here's a complete TypeScript implementation for managing chat sessions:
+
+```typescript title="session-manager.ts"
+interface Session {
+  id: string;
+  name: string;
+  assistantId: string;
+  status: string;
+  messages: Array<{ role: string; content: string }>;
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface ChatResponse {
+  message: string;
+  chat: {
+    id: string;
+    sessionId: string;
+    input: string;
+    output: Array<{ role: string; content: string }>;
+    status: string;
+    cost: number;
+    createdAt: string;
+    updatedAt: string;
+  };
+}
+
+class CallHQSessionManager {
+  private apiKey: string;
+  private sessionId?: string;
+  private sessionName: string;
+  private assistantId: string;
+
+  constructor(apiKey: string, sessionName: string, assistantId: string) {
+    this.apiKey = apiKey;
+    this.sessionName = sessionName;
+    this.assistantId = assistantId;
+  }
+
+  async createSession(): Promise<string> {
+    const response = await fetch('https://api.callhq.ai/api/sessions', {
+      method: 'POST',
+      headers: {
+        'x-api-key': this.apiKey,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        name: this.sessionName,
+        assistantId: this.assistantId
+      })
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to create session: ${response.status}`);
+    }
+
+    const result = await response.json();
+    this.sessionId = result.session.id;
+    return this.sessionId;
+  }
+
+  async sendMessage(input: string): Promise<string> {
+    if (!this.sessionId) {
+      throw new Error('No active session. Create a session first.');
+    }
+
+    const response = await fetch('https://api.callhq.ai/api/chats', {
+      method: 'POST',
+      headers: {
+        'x-api-key': this.apiKey,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        sessionId: this.sessionId,
+        input
+      })
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to send message: ${response.status}`);
+    }
+
+    const result: ChatResponse = await response.json();
+    return result.chat.output[0].content;
+  }
+
+  async getConversationHistory(): Promise<Array<{ role: string; content: string }>> {
+    if (!this.sessionId) {
+      throw new Error('No active session.');
+    }
+
+    const response = await fetch(`https://api.callhq.ai/api/chats/session/${this.sessionId}`, {
+      headers: {
+        'x-api-key': this.apiKey
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to get conversation history: ${response.status}`);
+    }
+
+    const result = await response.json();
+    return result.session.messages;
+  }
+
+  getSessionId(): string | undefined {
+    return this.sessionId;
+  }
+
+  isSessionActive(): boolean {
+    return !!this.sessionId;
+  }
+}
+
+// Usage
+const sessionManager = new CallHQSessionManager(
+  'your-api-key',
+  'Customer Support Session',
+  'your-assistant-id'
+);
+
+// Create session and start chatting
+await sessionManager.createSession();
+await sessionManager.sendMessage("Hello, I need help with my account");
+await sessionManager.sendMessage("I forgot my password");
+await sessionManager.sendMessage("What was my first question?"); // Remembers context
+
+// Get full conversation history
+const history = await sessionManager.getConversationHistory();
+console.log('Conversation history:', history);
+```
+
+---
+
+## Multi-Session Workflows
+
+For complex applications that need multiple concurrent conversations, you can manage multiple sessions:
+
+```typescript title="multi-session-manager.ts"
+class MultiSessionManager {
+  private apiKey: string;
+  private sessions: Map<string, CallHQSessionManager> = new Map();
+
+  constructor(apiKey: string) {
+    this.apiKey = apiKey;
+  }
+
+  async getOrCreateSession(sessionName: string, assistantId: string): Promise<CallHQSessionManager> {
+    const key = `${sessionName}-${assistantId}`;
+    
+    if (!this.sessions.has(key)) {
+      const sessionManager = new CallHQSessionManager(this.apiKey, sessionName, assistantId);
+      await sessionManager.createSession();
+      this.sessions.set(key, sessionManager);
+    }
+
+    return this.sessions.get(key)!;
+  }
+
+  async sendMessage(sessionName: string, assistantId: string, input: string): Promise<string> {
+    const session = await this.getOrCreateSession(sessionName, assistantId);
+    return session.sendMessage(input);
+  }
+
+  getAllSessions(): Array<{ name: string; assistantId: string; sessionId: string }> {
+    return Array.from(this.sessions.entries()).map(([key, session]) => {
+      const [name, assistantId] = key.split('-');
+      return {
+        name,
+        assistantId,
+        sessionId: session.getSessionId() || ''
+      };
+    });
+  }
+}
+
+// Usage
+const multiManager = new MultiSessionManager('your-api-key');
+
+// Handle multiple customer conversations
+await multiManager.sendMessage('Customer A', 'support-assistant', 'Hello, I need help');
+await multiManager.sendMessage('Customer B', 'sales-assistant', 'I want to buy a product');
+await multiManager.sendMessage('Customer A', 'support-assistant', 'What was my issue?'); // Remembers context
+
+console.log('Active sessions:', multiManager.getAllSessions());
+```
+
+---
+
+## Session Lifecycle Management
+
+### Creating Sessions
+- Sessions are created with a name and assistant ID
+- Each session gets a unique identifier
+- Sessions start in "active" status
+
+### Using Sessions
+- Send messages using the session ID
+- All messages within a session maintain context
+- Sessions automatically track conversation history
+
+### Session Expiration
+<Note>
+**Session Expiration Rules:**
+- Sessions expire automatically after **24 hours** by default
+- After expiration, you'll need to create a new session to continue conversations
+- **Web chat widget and SMS conversations automatically manage session creation and expiration**
+- **You don't need to manually create or manage sessions when using these channels**
+</Note>
+
+### Retrieving Session Data
+- Get conversation history for any active session
+- View all messages in chronological order
+- Monitor session status and metadata
+
+---
+
+## Best Practices
+
+### Session Naming
+```typescript
+// Good: Descriptive names
+"Customer Support - John Doe"
+"Lead Qualification - TechCorp Inc"
+"Onboarding - New User 123"
+
+// Avoid: Generic names
+"Session 1"
+"Chat"
+"Test"
+```
+
+### Session Organization
+```typescript
+// Organize by customer/user
+const customerSession = await multiManager.getOrCreateSession(
+  `Customer-${customerId}`,
+  'support-assistant'
+);
+
+// Organize by conversation type
+const salesSession = await multiManager.getOrCreateSession(
+  `Sales-${leadId}`,
+  'sales-assistant'
+);
+```
+
+### Error Handling
+```typescript
+try {
+  const response = await sessionManager.sendMessage("Hello");
+  console.log(response);
+} catch (error) {
+  if (error.message.includes('No active session')) {
+    // Recreate session
+    await sessionManager.createSession();
+    const response = await sessionManager.sendMessage("Hello");
+    console.log(response);
+  } else {
+    console.error('Chat error:', error);
+  }
+}
+```
+
+---
+
+## Webhook Support
+
+<Note>
+Sessions support the following webhook events through server messaging:
+- **`session.created`** - Triggered when a new session is created
+- **`session.updated`** - Triggered when a session is updated
+- **`session.deleted`** - Triggered when a session is deleted
+
+To receive these webhooks, go to your Assistant page in the Dashboard and navigate to "Server Messaging" and select the events you want to receive.
+
+These webhooks are useful for tracking session lifecycle, managing session state in your own database, and triggering workflows based on session changes.
+</Note>
+
+---
+
+## Next Steps
+
+* **[Chat Examples](/chat/examples)** - See more session management patterns
+* **[API Reference](/api-reference/chat/create-session)** - Complete API documentation for sessions
+
+
+<Callout>
+Need help with session management? Contact our team at [hello@callhq.ai](mailto:hello@callhq.ai) or visit our [Dashboard](https://web.callhq.ai).
+</Callout>

@@ -53,6 +53,15 @@
             ]
           },
           {
+            "group": "Chat",
+            "pages": [
+              "chat/overview",
+              "chat/quickstart",
+              "chat/examples",
+              "chat/session-management"
+            ]
+          },
+          {
             "group": "Outbound Campaign ",
             "pages": [
               "outbound-campaigns/quickstart",
@@ -100,6 +109,14 @@
               "api-reference/calls/list-calls",
               "api-reference/calls/get-call-details",
               "api-reference/calls/place-outbound-call"
+            ]
+          },
+          {
+            "group": "Chat",
+            "pages": [
+              "api-reference/chat/create-session",
+              "api-reference/chat/send-message",
+              "api-reference/chat/get-session-conversation"
             ]
           },
           {

@@ -1,0 +1,557 @@
+---
+title: 'Chat Examples'
+description: 'Practical examples and code snippets for CallHQ Chat integration'
+slug: chat/examples
+icon: code
+---
+
+
+
+> Real-world examples and code snippets to help you integrate CallHQ Chat into your applications.
+
+This page provides practical examples for common chat integration scenarios, from simple message handling to complex conversation flows.
+
+## Basic Chat Integration
+
+### Simple Message Exchange
+
+```typescript
+async function sendSimpleMessage(message: string, sessionId: string) {
+  const response = await fetch('https://api.callhq.ai/api/chats', {
+    method: 'POST',
+    headers: {
+      'x-api-key': process.env.CALLHQ_API_KEY,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      sessionId: sessionId,
+      input: message
+    })
+  });
+
+  const result = await response.json();
+  return result.chat.output[0].content;
+}
+
+// Usage
+const response = await sendSimpleMessage("Hello, how can you help me?", "session-id");
+console.log(response);
+```
+
+### Conversation with Context
+
+```typescript
+interface ChatSession {
+  sessionId: string;
+  name: string;
+  messages: Array<{ role: string; content: string }>;
+}
+
+class ChatBot {
+  private session: ChatSession | null = null;
+
+  async createSession(name: string, assistantId: string): Promise<string> {
+    const response = await fetch('https://api.callhq.ai/api/sessions', {
+      method: 'POST',
+      headers: {
+        'x-api-key': process.env.CALLHQ_API_KEY,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ name, assistantId })
+    });
+
+    const result = await response.json();
+    
+    this.session = {
+      sessionId: result.session.id,
+      name: result.session.name,
+      messages: result.session.messages
+    };
+
+    return result.session.id;
+  }
+
+  async sendMessage(message: string): Promise<string> {
+    if (!this.session?.sessionId) {
+      throw new Error('No active session. Create a session first.');
+    }
+
+    const response = await fetch('https://api.callhq.ai/api/chats', {
+      method: 'POST',
+      headers: {
+        'x-api-key': process.env.CALLHQ_API_KEY,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        sessionId: this.session.sessionId,
+        input: message
+      })
+    });
+
+    const result = await response.json();
+    
+    // Update messages
+    this.session.messages = result.chat.output;
+    
+    return result.chat.output[0].content;
+  }
+
+  async getConversationHistory(): Promise<Array<{ role: string; content: string }>> {
+    if (!this.session?.sessionId) {
+      return [];
+    }
+
+    const response = await fetch(`https://api.callhq.ai/api/chats/session/${this.session.sessionId}`, {
+      headers: {
+        'x-api-key': process.env.CALLHQ_API_KEY
+      }
+    });
+
+    const result = await response.json();
+    return result.session.messages;
+  }
+
+  getSessionId(): string | undefined {
+    return this.session?.sessionId;
+  }
+}
+
+// Usage
+const bot = new ChatBot();
+await bot.createSession("Customer Support", "assistant-id");
+await bot.sendMessage("Hi, I need help with my account");
+await bot.sendMessage("I forgot my password");
+const history = await bot.getConversationHistory();
+console.log(history);
+```
+
+## Customer Support Examples
+
+### FAQ Bot with Dynamic Variables
+
+```typescript
+interface CustomerInfo {
+  name: string;
+  tier: 'basic' | 'premium' | 'enterprise';
+  product: string;
+}
+
+async function handleCustomerSupport(
+  message: string, 
+  customerInfo: CustomerInfo,
+  sessionId: string
+) {
+  const response = await fetch('https://api.callhq.ai/api/chats', {
+    method: 'POST',
+    headers: {
+      'x-api-key': process.env.CALLHQ_API_KEY,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      sessionId: sessionId,
+      input: message,
+      assistantOverrides: {
+        variableValues: {
+          customerName: customerInfo.name,
+          customerTier: customerInfo.tier,
+          productName: customerInfo.product
+        }
+      }
+    })
+  });
+
+  return await response.json();
+}
+
+// Usage
+const customer = {
+  name: "John Doe",
+  tier: "premium",
+  product: "CallHQ Pro"
+};
+
+// First create a session
+const sessionResponse = await fetch('https://api.callhq.ai/api/sessions', {
+  method: 'POST',
+  headers: {
+    'x-api-key': process.env.CALLHQ_API_KEY,
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    name: "Customer Support Session",
+    assistantId: "customer-support-assistant"
+  })
+});
+
+const session = await sessionResponse.json();
+const sessionId = session.session.id;
+
+const supportResponse = await handleCustomerSupport(
+  "I need help with my subscription",
+  customer,
+  sessionId
+);
+```
+
+### Multi-language Support
+
+```typescript
+async function sendMultilingualMessage(
+  message: string, 
+  language: string,
+  sessionId: string
+) {
+  const response = await fetch('https://api.callhq.ai/api/chats', {
+    method: 'POST',
+    headers: {
+      'x-api-key': process.env.CALLHQ_API_KEY,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      sessionId: sessionId,
+      input: message,
+      assistantOverrides: {
+        variableValues: {
+          language: language,
+          locale: language === 'es' ? 'es-ES' : 'en-US'
+        }
+      }
+    })
+  });
+
+  return await response.json();
+}
+
+// Usage
+// First create a session
+const sessionResponse = await fetch('https://api.callhq.ai/api/sessions', {
+  method: 'POST',
+  headers: {
+    'x-api-key': process.env.CALLHQ_API_KEY,
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    name: "Multilingual Support",
+    assistantId: "multilingual-assistant"
+  })
+});
+
+const session = await sessionResponse.json();
+const sessionId = session.session.id;
+
+const spanishResponse = await sendMultilingualMessage(
+  "Necesito ayuda con mi cuenta",
+  "es",
+  sessionId
+);
+```
+
+## Lead Qualification Examples
+
+### Lead Scoring Chat
+
+```typescript
+interface LeadData {
+  company: string;
+  industry: string;
+  budget: string;
+  timeline: string;
+}
+
+async function qualifyLead(leadData: LeadData, sessionId: string) {
+  const response = await fetch('https://api.callhq.ai/api/chats', {
+    method: 'POST',
+    headers: {
+      'x-api-key': process.env.CALLHQ_API_KEY,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      sessionId: sessionId,
+      input: `Qualify this lead: Company: ${leadData.company}, Industry: ${leadData.industry}, Budget: ${leadData.budget}, Timeline: ${leadData.timeline}`,
+      assistantOverrides: {
+        variableValues: {
+          companyName: leadData.company,
+          industry: leadData.industry,
+          budgetRange: leadData.budget,
+          timeline: leadData.timeline
+        }
+      }
+    })
+  });
+
+  return await response.json();
+}
+
+// Usage
+const lead = {
+  company: "TechCorp Inc",
+  industry: "SaaS",
+  budget: "$50k-100k",
+  timeline: "Q2 2024"
+};
+
+// First create a session
+const sessionResponse = await fetch('https://api.callhq.ai/api/sessions', {
+  method: 'POST',
+  headers: {
+    'x-api-key': process.env.CALLHQ_API_KEY,
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    name: "Lead Qualification",
+    assistantId: "lead-qualification-assistant"
+  })
+});
+
+const session = await sessionResponse.json();
+const sessionId = session.session.id;
+
+const qualification = await qualifyLead(lead, sessionId);
+```
+
+## Error Handling
+
+### Robust Chat Client
+
+```typescript
+class RobustChatClient {
+  private retryCount = 0;
+  private maxRetries = 3;
+
+  async sendMessage(message: string, sessionId: string): Promise<any> {
+    try {
+      const response = await fetch('https://api.callhq.ai/api/chats', {
+        method: 'POST',
+        headers: {
+          'x-api-key': process.env.CALLHQ_API_KEY,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          sessionId,
+          input: message
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+
+      const result = await response.json();
+      this.retryCount = 0; // Reset retry count on success
+      return result;
+
+    } catch (error) {
+      console.error(`Chat request failed: ${error.message}`);
+      
+      if (this.retryCount < this.maxRetries) {
+        this.retryCount++;
+        console.log(`Retrying... Attempt ${this.retryCount}`);
+        
+        // Exponential backoff
+        await new Promise(resolve => 
+          setTimeout(resolve, Math.pow(2, this.retryCount) * 1000)
+        );
+        
+        return this.sendMessage(message, assistantId);
+      }
+      
+      throw new Error(`Failed after ${this.maxRetries} retries: ${error.message}`);
+    }
+  }
+}
+
+// Usage
+const client = new RobustChatClient();
+
+// First create a session
+const sessionResponse = await fetch('https://api.callhq.ai/api/sessions', {
+  method: 'POST',
+  headers: {
+    'x-api-key': process.env.CALLHQ_API_KEY,
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    name: "Robust Chat Session",
+    assistantId: "assistant-id"
+  })
+});
+
+const session = await sessionResponse.json();
+const sessionId = session.session.id;
+
+try {
+  const response = await client.sendMessage("Hello", sessionId);
+  console.log(response.chat.output[0].content);
+} catch (error) {
+  console.error("Chat failed:", error.message);
+}
+```
+
+## Webhook Integration
+
+### Webhook Handler
+
+```typescript
+import express from 'express';
+
+const app = express();
+app.use(express.json());
+
+app.post('/webhooks/callhq', (req, res) => {
+  const { event, data } = req.body;
+
+  switch (event) {
+    case 'chat.created':
+      console.log('New chat started:', data.id);
+      // Store chat in database
+      // Send welcome notification
+      break;
+      
+    case 'chat.deleted':
+      console.log('Chat deleted:', data.id);
+      // Clean up database records
+      // Log analytics
+      break;
+      
+    default:
+      console.log('Unknown event:', event);
+  }
+
+  res.status(200).json({ received: true });
+});
+
+app.listen(3000, () => {
+  console.log('Webhook server running on port 3000');
+});
+```
+
+## Testing Examples
+
+### Unit Tests
+
+```typescript
+import { jest } from '@jest/globals';
+
+// Mock fetch
+global.fetch = jest.fn();
+
+describe('Chat Integration', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  test('sends message successfully', async () => {
+    const mockResponse = {
+      id: 'chat_123',
+      output: [{ role: 'assistant', content: 'Hello! How can I help?' }]
+    };
+
+    (fetch as jest.Mock).mockResolvedValueOnce({
+      ok: true,
+      json: async () => mockResponse
+    });
+
+    const response = await sendSimpleMessage('Hi');
+    expect(response).toBe('Hello! How can I help?');
+    expect(fetch).toHaveBeenCalledWith(
+      'https://api.callhq.ai/api/chats',
+      expect.objectContaining({
+        method: 'POST',
+        headers: {
+          'x-api-key': 'test-key',
+          'Content-Type': 'application/json'
+        }
+      })
+    );
+  });
+
+  test('handles API errors gracefully', async () => {
+    (fetch as jest.Mock).mockResolvedValueOnce({
+      ok: false,
+      status: 404,
+      statusText: 'Not Found'
+    });
+
+    await expect(sendSimpleMessage('Hi')).rejects.toThrow('HTTP 404: Not Found');
+  });
+});
+```
+
+## Performance Optimization
+
+### Batch Processing
+
+```typescript
+async function processBatchMessages(
+  messages: string[], 
+  sessionId: string
+) {
+  const batchSize = 5;
+  const results = [];
+
+  for (let i = 0; i < messages.length; i += batchSize) {
+    const batch = messages.slice(i, i + batchSize);
+    
+    const batchPromises = batch.map(message =>
+      fetch('https://api.callhq.ai/api/chats', {
+        method: 'POST',
+        headers: {
+          'x-api-key': process.env.CALLHQ_API_KEY,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          sessionId,
+          input: message
+        })
+      }).then(res => res.json())
+    );
+
+    const batchResults = await Promise.all(batchPromises);
+    results.push(...batchResults);
+    
+    // Rate limiting - wait between batches
+    if (i + batchSize < messages.length) {
+      await new Promise(resolve => setTimeout(resolve, 1000));
+    }
+  }
+
+  return results;
+}
+
+// Usage
+const messages = [
+  "What are your business hours?",
+  "How do I reset my password?",
+  "What's your refund policy?",
+  "Do you offer discounts?",
+  "How can I contact support?"
+];
+
+// First create a session
+const sessionResponse = await fetch('https://api.callhq.ai/api/sessions', {
+  method: 'POST',
+  headers: {
+    'x-api-key': process.env.CALLHQ_API_KEY,
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    name: "Batch Processing Session",
+    assistantId: "assistant-id"
+  })
+});
+
+const session = await sessionResponse.json();
+const sessionId = session.session.id;
+
+const responses = await processBatchMessages(messages, sessionId);
+```
+
+## Next Steps
+
+- **[Quickstart Guide](/chat/quickstart)** - Get started with your first chat bot
+- **[API Reference](/api-reference)** - Complete API documentation
+- **[Best Practices](/chat/best-practices)** - Learn how to build effective chat experiences
+
+<Callout>
+Need help implementing any of these examples? Contact our team at [hello@callhq.ai](mailto:hello@callhq.ai).
+</Callout>

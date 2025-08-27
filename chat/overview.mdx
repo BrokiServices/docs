@@ -1,0 +1,103 @@
+---
+title: 'Chat Overview'
+
+slug: chat/overview
+icon: message
+---
+
+
+
+> Build intelligent text-based conversations with CallHQ Voice AI assistants. Perfect for customer support, lead qualification, and interactive applications.
+
+CallHQ Chat enables you to create AI-powered text conversations that maintain context, handle complex workflows, and integrate seamlessly with your existing applications. Whether you need a simple FAQ bot or a sophisticated customer service agent, our chat API provides the tools you need.
+
+## Key Features
+
+###  **Intelligent Conversations**
+- **Context Awareness**: Maintains conversation history and context across multiple messages
+- **Multi-turn Dialogues**: Handle complex, multi-step conversations naturally
+- **Dynamic Responses**: Generate contextual responses based on conversation flow
+
+###  **Easy Integration**
+- **RESTful API**: Simple HTTP endpoints for quick integration
+- **TypeScript Support**: Full type definitions and examples
+- **Webhook Support**: Real-time notifications for conversation events
+- **Variable Injection**: Pass dynamic data to personalize conversations
+
+###  **Production Ready**
+- **Scalable Infrastructure**: Built on CallHQ's proven voice AI platform
+- **Security First**: API key authentication and secure data handling
+- **Monitoring**: Track conversation analytics and performance metrics
+
+## Use Cases
+
+### Customer Support
+- **24/7 Support**: Provide instant responses to common customer questions
+- **Ticket Escalation**: Automatically escalate complex issues to human agents
+- **FAQ Automation**: Handle repetitive support queries efficiently
+
+### Lead Qualification
+- **Lead Scoring**: Assess prospect interest and qualification criteria
+- **Appointment Booking**: Schedule meetings and consultations
+- **Product Recommendations**: Guide prospects to relevant solutions
+
+### Interactive Applications
+- **Onboarding**: Guide new users through setup processes
+- **Training**: Create interactive learning experiences
+- **Surveys**: Collect feedback and conduct research
+
+## How It Works
+
+### 1. **Assistant Configuration**
+Create and configure your AI assistant with custom prompts, knowledge base, and behavior rules.
+
+### 2. **Session Creation**
+Start a new chat session with your assistant to establish context and conversation history.
+
+### 3. **API Integration**
+Send chat messages within the session via our REST API and receive intelligent responses in real-time.
+
+### 4. **Context Management**
+Use session IDs to maintain context across multiple interactions within the same conversation.
+
+### 5. **Dynamic Content**
+Inject variables and real-time data to personalize conversations.
+
+## API Endpoints
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/api/sessions` | POST | Create a new chat session |
+| `/api/chats` | POST | Send a chat message within a session |
+| `/api/chats/session/{sessionId}` | GET | Retrieve conversation history for a session |
+
+## Authentication
+
+All chat API requests require authentication using your CallHQ API key:
+
+```bash
+x-api-key: your_api_key_here
+```
+
+## Response Format
+
+Chat responses include:
+- **Message ID**: Unique identifier for the conversation
+- **Assistant Response**: AI-generated response content
+- **Context Data**: Conversation metadata and timestamps
+- **Status Information**: Response status and any errors
+
+## Getting Started
+
+Ready to build your first chat bot? Follow our [quickstart guide](/chat/quickstart) to get up and running in minutes.
+
+### Next Steps
+
+- **[Quickstart Guide](/chat/quickstart)** - Build your first chat bot in 5 minutes
+- **[API Reference](/api-reference/chat/create-session)** - Complete API documentation
+- **[Examples](/chat/examples)** - Sample implementations and use cases
+
+
+<Callout>
+Need help getting started? Contact our team at [hello@callhq.ai](mailto:hello@callhq.ai) or visit our [Dashboard](https://web.callhq.ai).
+</Callout>
