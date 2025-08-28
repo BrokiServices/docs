@@ -703,6 +703,219 @@
         }
       }
     },
+    "/files": {
+      "get": {
+        "summary": "List Files",
+        "tags": [
+          "Files"
+        ],
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            },
+            "description": "Page number for pagination."
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer",
+              "default": 10
+            },
+            "description": "Maximum number of files to return per page."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of files retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "files": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/File"
+                      }
+                    },
+                    "pagination": {
+                      "$ref": "#/components/schemas/Pagination"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error fetching files."
+          }
+        }
+      },
+      "post": {
+        "summary": "Upload File",
+        "tags": [
+          "Files"
+        ],
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "file"
+                ],
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "File to upload"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "File uploaded successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "File uploaded successfully"
+                    },
+                    "file": {
+                      "$ref": "#/components/schemas/File"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - missing or invalid file."
+          },
+          "413": {
+            "description": "File too large."
+          },
+          "500": {
+            "description": "Error uploading file."
+          }
+        }
+      }
+    },
+    "/files/{fileId}": {
+      "get": {
+        "summary": "Get File",
+        "tags": [
+          "Files"
+        ],
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "fileId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Unique identifier of the file."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "File retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "file": {
+                      "$ref": "#/components/schemas/File"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "File not found."
+          },
+          "500": {
+            "description": "Error fetching file."
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete File",
+        "tags": [
+          "Files"
+        ],
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "fileId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Unique identifier of the file to delete."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "File deleted successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "File deleted successfully"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "File not found."
+          },
+          "500": {
+            "description": "Error deleting file."
+          }
+        }
+      }
+    },
     "/sessions": {
       "post": {
         "summary": "Create Chat Session",
@@ -1166,6 +1379,120 @@
                 "description": "Last update timestamp"
               }
             }
+          }
+        }
+      },
+      "File": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the file"
+          },
+          "externalId": {
+            "type": "string",
+            "description": "External identifier for the file"
+          },
+          "name": {
+            "type": "string",
+            "description": "Original name of the file"
+          },
+          "integrationId": {
+            "type": "string",
+            "description": "ID of the integration this file belongs to"
+          },
+          "url": {
+            "type": "string",
+            "description": "URL to access the file"
+          },
+          "bytes": {
+            "type": "integer",
+            "description": "Size of the file in bytes"
+          },
+          "object": {
+            "type": "string",
+            "description": "Object type identifier"
+          },
+          "purpose": {
+            "type": "string",
+            "description": "Purpose of the file (e.g., 'assistant')"
+          },
+          "mimetype": {
+            "type": "string",
+            "description": "MIME type of the file"
+          },
+          "bucket": {
+            "type": "string",
+            "description": "Storage bucket name"
+          },
+          "path": {
+            "type": "string",
+            "description": "Storage path within the bucket"
+          },
+          "status": {
+            "type": "string",
+            "description": "Processing status of the file"
+          },
+          "parsedTextUrl": {
+            "type": "string",
+            "description": "URL to access the parsed text content"
+          },
+          "parsedTextBytes": {
+            "type": "string",
+            "description": "Size of parsed text in bytes"
+          },
+          "organizationId": {
+            "type": "string",
+            "description": "ID of the organization that owns the file"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Creation timestamp"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Last update timestamp"
+          },
+          "organization": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "Organization identifier"
+              },
+              "name": {
+                "type": "string",
+                "description": "Organization name"
+              }
+            }
+          },
+          "integration": {
+            "type": "object",
+            "nullable": true,
+            "description": "Integration details (can be null)"
+          }
+        }
+      },
+      "Pagination": {
+        "type": "object",
+        "properties": {
+          "total": {
+            "type": "integer",
+            "description": "Total number of items"
+          },
+          "page": {
+            "type": "integer",
+            "description": "Current page number"
+          },
+          "limit": {
+            "type": "integer",
+            "description": "Number of items per page"
+          },
+          "totalPages": {
+            "type": "integer",
+            "description": "Total number of pages"
           }
         }
       }

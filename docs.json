@@ -125,6 +125,15 @@
             "pages": [
               "api-reference/phone/list-phone-numbers"
             ]
+          },
+          {
+            "group": "Knowledge Base",
+            "pages": [
+              "api-reference/files/list-files",
+              "api-reference/files/upload-file",
+              "api-reference/files/get-file",
+              "api-reference/files/delete-file"
+            ]
           }
           
         ]
