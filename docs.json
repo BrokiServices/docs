@@ -39,7 +39,8 @@
               "assistant/transcriber",
               "assistant/voice",
               "assistant/testing",
-              "assistant/dynamic-variables"
+              "assistant/dynamic-variables",
+              "assistant/knowledge-base"
                
             ]
           },
