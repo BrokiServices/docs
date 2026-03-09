@@ -334,64 +334,109 @@
                   },
                   "voice": {
                     "type": "object",
+                    "description": "Voice configuration. Supports ElevenLabs or Sarvam. For Sarvam, voiceId, model, and language are required.",
                     "properties": {
                       "provider": {
                         "type": "string",
                         "enum": [
-                          "CallHQ"
+                          "elevenlabs",
+                          "sarvam"
                         ],
-                        "example": "CallHQ"
+                        "description": "Voice provider. Use 'elevenlabs' or 'sarvam'.",
+                        "example": "sarvam"
                       },
                       "voiceId": {
                         "type": "string",
-                        "enum": [
-                          "Paige",
-                          "Rohan",
-                          "Hana",
-                          "Elliot",
-                          "Kylie",
-                          "Savannah",
-                          "Cole",
-                          "Harry",
-                          "Spencer",
-                          "Neha",
-                          "Lily"
-                        ],
-                        "example": "Priya"
+                        "description": "Voice identifier. For Sarvam, use voice names like 'anushka'. For ElevenLabs, use their voice IDs.",
+                        "example": "anushka"
+                      },
+                      "model": {
+                        "type": "string",
+                        "description": "Required for both ElevenLabs and Sarvam. Model name (e.g. 'bulbul:v2' for Sarvam or 'eleven_turbo_v2_5' for ElevenLabs).",
+                        "example": "bulbul:v2"
+                      },
+                      "language": {
+                        "type": "string",
+                        "description": "Required for Sarvam. Free-form language value (e.g. 'hi', 'en').",
+                        "example": "en"
                       },
                       "speed": {
                         "type": "number",
+                        "description": "Speech rate. Default 1.",
                         "example": 1
                       }
                     }
                   },
                   "transcriber": {
                     "type": "object",
+                    "description": "Speech-to-text configuration.",
                     "properties": {
                       "provider": {
                         "type": "string",
-                        "example": "google"
+                        "enum": [
+                          "AssemblyAI",
+                          "Azure",
+                          "Deepgram",
+                          "ElevenLabs",
+                          "Gladia",
+                          "Google",
+                          "Sarvam",
+                          "Smallest"
+                        ],
+                        "example": "Deepgram"
                       },
                       "model": {
                         "type": "string",
-                        "example": "gemini-1.5-pro"
+                        "description": "Model for the provider. Use one of: AssemblyAI (universal), Azure (azure), Deepgram (nova-3, nova-2, nova-3-medical, nova-2-atc, nova-2-automotive, nova-2-conversationalai, nova-2-drivethru, nova-2-finance, nova-2-medical, nova-2-meeting), ElevenLabs (Scribe V2 Realtime), Gladia (Gladia Solaria-1), Google (latest_long), Sarvam (saaras:v2.5, saaras:v3, saarika:v2.5), Smallest (Smallest Lightning).",
+                        "example": "nova-3"
                       },
                       "language": {
                         "type": "string",
-                        "example": "Multilingual"
+                        "description": "Language for transcription. Select from supported codes.",
+                        "enum": [
+                          "bn",
+                          "en",
+                          "es",
+                          "fr",
+                          "gu",
+                          "hi",
+                          "id",
+                          "inm",
+                          "kn",
+                          "ml",
+                          "mr",
+                          "nl",
+                          "or",
+                          "pa",
+                          "pt",
+                          "ta",
+                          "te",
+                          "th",
+                          "vi"
+                        ],
+                        "example": "en"
                       }
                     }
                   },
                   "model": {
                     "type": "object",
+                    "description": "LLM configuration. Supported providers and models: openai (gpt-4.1-mini, gpt-4.1, gpt-4.1-nano, gpt-4o-mini, gpt-4o, gpt-3.5-turbo), azure (gpt-4.1-mini-cluster, gpt-4.1-cluster, gpt-4.1-nano-cluster, gpt-4o-mini-cluster, gpt-4o-cluster, gpt-4-cluster, gpt-3.5-cluster), openrouter (gpt-oss-20b, gpt-oss-120b, gpt-4, gpt-4o-mini, gpt-4o, gpt-4.1, gpt-4.1-nano, gpt-4.1-mini, claude-sonnet-4), deepseek (deepseek-chat), anthropic (sonnet-4).",
                     "properties": {
                       "provider": {
                         "type": "string",
-                        "example": "google"
+                        "enum": [
+                          "openai",
+                          "azure",
+                          "openrouter",
+                          "deepseek",
+                          "anthropic"
+                        ],
+                        "example": "openai"
                       },
                       "model": {
                         "type": "string",
-                        "example": "gemini-1.5-pro"
+                        "description": "Model name. Must match the provider. Examples: gpt-4o, gpt-4.1-mini, gpt-4.1-nano, deepseek-chat, sonnet-4, claude-sonnet-4.",
+                        "example": "gpt-4o"
                       },
                       "temperature": {
                         "type": "number",
@@ -418,6 +463,16 @@
                               "type": "string",
                               "example": "This is a blank template with minimal defaults, you can change the model, temperature, and messages."
                             }
+                          }
+                        }
+                      },
+                      "knowledgeBase": {
+                        "type": "object",
+                        "description": "Knowledge base config. Can be at model level or root level.",
+                        "properties": {
+                          "fileIds": {
+                            "type": "array",
+                            "items": { "type": "string" }
                           }
                         }
                       }
@@ -450,6 +505,35 @@
                   "maxDurationSeconds": {
                     "type": "integer",
                     "example": 3600
+                  },
+                  "analysisPlan": {
+                    "type": "object",
+                    "description": "Analysis plan configuration for call insights and follow-up actions."
+                  },
+                  "knowledgeBase": {
+                    "type": "object",
+                    "description": "Knowledge base at root level. Files are validated against organization ownership.",
+                    "properties": {
+                      "fileIds": {
+                        "type": "array",
+                        "items": { "type": "string" }
+                      }
+                    }
+                  },
+                  "hangupUsingPrompt": {
+                    "type": "object",
+                    "description": "Configuration for ending the call using a custom prompt.",
+                    "properties": {
+                      "enabled": {
+                        "type": "boolean",
+                        "example": false
+                      },
+                      "prompt": {
+                        "type": "string",
+                        "description": "Custom goodbye message when ending the call.",
+                        "example": "Thank you for calling. Goodbye!"
+                      }
+                    }
                   }
                 }
               }
@@ -543,52 +627,109 @@
                   },
                   "voice": {
                     "type": "object",
+                    "description": "Voice configuration. Supports ElevenLabs or Sarvam. For Sarvam, voiceId, model, and language are required.",
                     "properties": {
                       "provider": {
                         "type": "string",
                         "enum": [
-                          "CallHQ"
+                          "elevenlabs",
+                          "sarvam"
                         ],
-                        "example": "CallHQ"
+                        "description": "Voice provider. Use 'elevenlabs' or 'sarvam'.",
+                        "example": "sarvam"
                       },
                       "voiceId": {
                         "type": "string",
-                        "enum": [
-                          "Paige",
-                          "Rohan",
-                          "Hana",
-                          "Elliot",
-                          "Kylie",
-                          "Savannah",
-                          "Cole",
-                          "Harry",
-                          "Spencer",
-                          "Neha",
-                          "Lily"
-                        ],
-                        "example": "Neha"
+                        "description": "Voice identifier. For Sarvam, use voice names like 'anushka'. For ElevenLabs, use their voice IDs.",
+                        "example": "anushka"
+                      },
+                      "model": {
+                        "type": "string",
+                        "description": "Required for both ElevenLabs and Sarvam. Model name (e.g. 'bulbul:v2' for Sarvam or 'eleven_turbo_v2_5' for ElevenLabs).",
+                        "example": "bulbul:v2"
+                      },
+                      "language": {
+                        "type": "string",
+                        "description": "Required for Sarvam. Free-form language value (e.g. 'hi', 'en').",
+                        "example": "en"
                       },
                       "speed": {
                         "type": "number",
+                        "description": "Speech rate. Default 1.",
                         "example": 1
+                      }
+                    }
+                  },
+                  "transcriber": {
+                    "type": "object",
+                    "description": "Speech-to-text configuration.",
+                    "properties": {
+                      "provider": {
+                        "type": "string",
+                        "enum": [
+                          "AssemblyAI",
+                          "Azure",
+                          "Deepgram",
+                          "ElevenLabs",
+                          "Gladia",
+                          "Google",
+                          "Sarvam",
+                          "Smallest"
+                        ],
+                        "example": "Deepgram"
+                      },
+                      "model": {
+                        "type": "string",
+                        "description": "Model for the provider. Use one of: AssemblyAI (universal), Azure (azure), Deepgram (nova-3, nova-2, nova-3-medical, nova-2-atc, nova-2-automotive, nova-2-conversationalai, nova-2-drivethru, nova-2-finance, nova-2-medical, nova-2-meeting), ElevenLabs (Scribe V2 Realtime), Gladia (Gladia Solaria-1), Google (latest_long), Sarvam (saaras:v2.5, saaras:v3, saarika:v2.5), Smallest (Smallest Lightning).",
+                        "example": "nova-3"
+                      },
+                      "language": {
+                        "type": "string",
+                        "description": "Language for transcription. Select from supported codes.",
+                        "enum": [
+                          "bn",
+                          "en",
+                          "es",
+                          "fr",
+                          "gu",
+                          "hi",
+                          "id",
+                          "inm",
+                          "kn",
+                          "ml",
+                          "mr",
+                          "nl",
+                          "or",
+                          "pa",
+                          "pt",
+                          "ta",
+                          "te",
+                          "th",
+                          "vi"
+                        ],
+                        "example": "en"
                       }
                     }
                   },
                   "model": {
                     "type": "object",
+                    "description": "LLM configuration. Supported providers and models: openai (gpt-4.1-mini, gpt-4.1, gpt-4.1-nano, gpt-4o-mini, gpt-4o, gpt-3.5-turbo), azure (gpt-4.1-mini-cluster, gpt-4.1-cluster, gpt-4.1-nano-cluster, gpt-4o-mini-cluster, gpt-4o-cluster, gpt-4-cluster, gpt-3.5-cluster), openrouter (gpt-oss-20b, gpt-oss-120b, gpt-4, gpt-4o-mini, gpt-4o, gpt-4.1, gpt-4.1-nano, gpt-4.1-mini, claude-sonnet-4), deepseek (deepseek-chat), anthropic (sonnet-4).",
                     "properties": {
                       "provider": {
                         "type": "string",
                         "enum": [
-                          "google",
                           "openai",
+                          "azure",
+                          "openrouter",
+                          "deepseek",
                           "anthropic"
                         ],
-                        "example": "google"
+                        "example": "openai"
                       },
                       "model": {
                         "type": "string",
-                        "example": "gemini-1.5-pro"
+                        "description": "Model name. Must match the provider. Examples: gpt-4o, gpt-4.1-mini, gpt-4.1-nano, deepseek-chat, sonnet-4, claude-sonnet-4.",
+                        "example": "gpt-4o"
                       },
                       "temperature": {
                         "type": "number",
@@ -615,6 +756,16 @@
                               "type": "string",
                               "example": "This is a blank template with minimal defaults, you can change the model, temperature, and messages."
                             }
+                          }
+                        }
+                      },
+                      "knowledgeBase": {
+                        "type": "object",
+                        "description": "Knowledge base config. Can be at model level or root level.",
+                        "properties": {
+                          "fileIds": {
+                            "type": "array",
+                            "items": { "type": "string" }
                           }
                         }
                       }
@@ -651,6 +802,35 @@
                   "maxDurationSeconds": {
                     "type": "integer",
                     "example": 3600
+                  },
+                  "analysisPlan": {
+                    "type": "object",
+                    "description": "Analysis plan configuration for call insights and follow-up actions."
+                  },
+                  "knowledgeBase": {
+                    "type": "object",
+                    "description": "Knowledge base at root level. Files are validated against organization ownership.",
+                    "properties": {
+                      "fileIds": {
+                        "type": "array",
+                        "items": { "type": "string" }
+                      }
+                    }
+                  },
+                  "hangupUsingPrompt": {
+                    "type": "object",
+                    "description": "Configuration for ending the call using a custom prompt.",
+                    "properties": {
+                      "enabled": {
+                        "type": "boolean",
+                        "example": false
+                      },
+                      "prompt": {
+                        "type": "string",
+                        "description": "Custom goodbye message when ending the call.",
+                        "example": "Thank you for calling. Goodbye!"
+                      }
+                    }
                   }
                 }
               }
