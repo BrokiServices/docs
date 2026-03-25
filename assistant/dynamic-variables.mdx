@@ -7,11 +7,11 @@ icon : "user"
 
 ## Overview
 
-Use dynamic variables in the system prompt or any message in the dashboard with double curly braces (e.g., `{{name}}`).
+Use dynamic variables in the system prompt or any message in the dashboard with curly braces (e.g., `{name}`).
 
 To set values, make a phone call request through the API and set `assistantOverrides`. You cannot set variable values directly in the dashboard.
 
-For example, set the assistant's first message to "Hello, `{{name}}`!" and assign `name` to `Akash` by passing `assistantOverrides` with `variableValues`:
+For example, set the assistant's first message to "Hello, `{name}`!" and assign `name` to `Akash` by passing `assistantOverrides` with `variableValues`:
 
 ```json
 {
@@ -62,7 +62,7 @@ For example, set the assistant's first message to "Hello, `{{name}}`!" and assig
 </Steps>
 
 <Note>
-  Ensure `{{variableName}}` is included in all prompts where needed.
+  Ensure `{variableName}` is included in all prompts where needed.
 </Note>
 
 ## Default Variables
@@ -71,14 +71,14 @@ These variables are automatically filled based on the current (UTC) time, so you
 
 | Variable                | Description                       | Example                   |
 | ----------------------- | --------------------------------- | ------------------------- |
-| `{{now}}`               | Current date and time (UTC)       | Jan 1, 2024 12:00 PM      |
-| `{{date}}`              | Current date (UTC)                | Jan 1, 2024               |
-| `{{time}}`              | Current time (UTC)                | 12:00 PM                  |
-| `{{month}}`             | Current month (UTC)               | January                   |
-| `{{day}}`               | Current day of month (UTC)        | 1                         |
-| `{{year}}`              | Current year (UTC)                | 2024                      |
-| `{{customer.number}}`   | Customer's phone number           | +1xxxxxxxxxx              |
-| `{{customer.X}}`        | Any other customer property       |                           |
+| `{now}`                 | Current date and time (UTC)       | Jan 1, 2024 12:00 PM      |
+| `{date}`                | Current date (UTC)                | Jan 1, 2024               |
+| `{time}`                | Current time (UTC)                | 12:00 PM                  |
+| `{month}`               | Current month (UTC)               | January                   |
+| `{day}`                 | Current day of month (UTC)        | 1                         |
+| `{year}`                | Current year (UTC)                | 2024                      |
+| `{customer.number}`     | Customer's phone number           | +1xxxxxxxxxx              |
+| `{customer.X}`          | Any other customer property       |                           |
 
 ## Advanced date and time usage
 
@@ -87,24 +87,24 @@ You can use advanced date and time formatting in any prompt or message that supp
 Format a date or time using the LiquidJS `date` filter:
 
 ```liquid
-{{"now" | date: "%A, %B %d, %Y, %I:%M %p", "America/Los_Angeles"}}
+{"now" | date: "%A, %B %d, %Y, %I:%M %p", "America/Los_Angeles"}
 ```
 Outputs: `Monday, January 01, 2024, 03:45 PM`
 
 **Examples:**
 - 24-hour time:
   ```liquid
-  {{"now" | date: "%H:%M", "Europe/London"}}
+  {"now" | date: "%H:%M", "Europe/London"}
   ```
   → `17:30`
 - Day of week:
   ```liquid
-  {{"now" | date: "%A"}}
+  {"now" | date: "%A"}
   ```
   → `Tuesday`
 - With customer number:
   ```liquid
-  Hello, your number is {{customer.number}} and the time is {{"now" | date: "%I:%M %p", "America/New_York"}}
+  Hello, your number is {customer.number} and the time is {"now" | date: "%I:%M %p", "America/New_York"}
   ```
 
 **Common formats:**
@@ -119,14 +119,14 @@ Outputs: `Monday, January 01, 2024, 03:45 PM`
 
 ## Using dynamic variables in the dashboard
 
-To use dynamic variables in the dashboard, include them in your prompts or messages using double curly braces. For example:
+To use dynamic variables in the dashboard, include them in your prompts or messages using curly braces. For example:
 
 ```
-Hello, {{name}}!
+Hello, {name}!
 ```
 
 When you start a call, you must provide a value for each variable (like `name`) in the call configuration or via the API/SDK.
 
 <Note>
-Always use double curly braces (`{{variableName}}`) to reference dynamic variables in your prompts and messages.
+Always use curly braces (`{variableName}`) to reference dynamic variables in your prompts and messages.
 </Note>
