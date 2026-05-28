@@ -1,0 +1,131 @@
+---
+title: Transfer Call
+description: Transfer live calls from a CallHQ voice AI assistant to human agents or destination phone numbers.
+icon: phone-arrow-right
+---
+
+Transfer Call lets your CallHQ voice AI assistant route a live call to a human agent or a specific phone number based on conversation context. Use it for escalations, sales handoffs, specialized support, or any flow where a caller needs human help.
+
+To access this section:  
+**Build → Assistant → Select Assistant → Tools → Transfer Call Tool**
+
+<Frame caption="Tools tab in CallHQ assistant setup">
+  <img
+    src="/images/function-calling-tools.png"
+    alt="CallHQ assistant Tools tab with transfer call and custom function tools"
+  />
+</Frame>
+
+---
+
+## What is Call Transfer?
+
+Call transfer enables your assistant to hand off an active phone call while the caller is still on the line. The assistant decides when to transfer based on your transfer description and the live conversation.
+
+For example, you can transfer when a caller:
+
+- Asks to speak with a human
+- Requests a sales, billing, or support team
+- Needs help outside the assistant's scope
+- Reaches an escalation condition defined in your prompt
+
+<Tip>
+  Write the transfer description like an instruction to the LLM. Be specific about the caller intent, department, or scenario that should trigger the transfer.
+</Tip>
+
+---
+<Frame caption="Transfer call in CallHQ assistant setup">
+  <img
+    src="/images/transfer-call.png"
+    alt="CallHQ assistant Tools tab with transfer call and custom function tools"
+  />
+</Frame>
+## Configuration Options
+
+| Setting | Description |
+| --- | --- |
+| **Description** | Tell the LLM when to trigger the transfer. For example: "Transfer when the caller asks to speak with a human agent or sales team." |
+| **Transfer to phone number** | Destination number in international format, such as `+19876543210`. |
+| **Pre-tool message** | What the assistant says while transferring. For example: "Sure, I'll transfer the call for you. Please wait a moment." |
+
+<Info>
+  If your assistant supports multiple languages, add transfer messages that match the languages your callers use.
+</Info>
+
+---
+
+## How to Set Up Call Transfer
+
+<Steps>
+  <Step title="Open the Tools Tab">
+    Go to **Build → Assistant**, select your assistant, then open the **Tools** tab.
+  </Step>
+
+  <Step title="Create Transfer Call Tool">
+    In the **Transfer Call Tool** section, click **Create Transfer Call Tool**.
+  </Step>
+
+  <Step title="Add the Destination Number">
+    Enter the phone number where calls should be transferred. Use international format with the country code.
+  </Step>
+
+  <Step title="Write a Clear Description">
+    Describe exactly when the transfer should trigger, such as "Transfer when the caller asks for pricing, demos, or the sales team."
+  </Step>
+
+  <Step title="Add a Pre-tool Message">
+    Set the message your assistant speaks before starting the transfer.
+  </Step>
+
+  <Step title="Save and Test">
+    Save the transfer configuration, then test it with realistic caller phrases before using it in production.
+  </Step>
+</Steps>
+
+<Info>
+  For multiple departments, create separate transfer tools for Sales, Support, Billing, or other teams. Give each tool its own destination number and trigger description.
+</Info>
+
+---
+
+## Example Conversation
+
+<AccordionGroup>
+  <Accordion title="Caller requests a human agent" icon="message">
+    **Caller**: "I'd like to speak with someone from your sales team."
+
+    **Assistant**: "Sure, I'll transfer you to our sales team. Please wait a moment."
+
+    The assistant triggers the transfer call tool and routes the call to the configured sales number.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Best Practices
+
+<CardGroup cols={2}>
+  <Card title="Be Specific" icon="bullseye">
+    Use detailed descriptions like "Transfer to sales when the caller asks about pricing, demos, or purchasing" instead of generic wording.
+  </Card>
+
+  <Card title="Test Phone Numbers" icon="phone-check">
+    Verify destination numbers are correct and reachable before deploying your assistant.
+  </Card>
+
+  <Card title="Use Pre-tool Messages" icon="comment">
+    Set a friendly message so callers know they are being transferred.
+  </Card>
+
+  <Card title="Plan for Failures" icon="triangle-exclamation">
+    Decide what the assistant should do if the destination number is busy or unavailable.
+  </Card>
+</CardGroup>
+
+<Warning>
+  Test call transfers before deploying. Failed transfers frustrate callers, so always verify phone numbers and handoff behavior.
+</Warning>
+
+---
+
+
