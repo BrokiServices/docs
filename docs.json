@@ -36,6 +36,7 @@
               "assistant/overview",
               "assistant/agent",
               "assistant/llm",
+              "assistant/function-calling",
               "assistant/transcriber",
               "assistant/voice",
               "assistant/testing",
